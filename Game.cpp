@@ -39,9 +39,14 @@ namespace Chess
 	}
 
 	void Game::make_move(const Position& start, const Position& end) {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
+
+		// if 
+		// include error handling if valid_positions == false
+		// call these functions:
+		// legal_move_position
+		// legal_capture_position
+			// update point value
+			// create a field representing point value? how do we store the point value of each player?
 	}
 
 	bool Game::in_check(const bool& white) const {

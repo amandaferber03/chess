@@ -26,7 +26,13 @@ namespace Chess
     /////////////////////////
     // [REPLACE THIS STUB] //
     /////////////////////////
-    occ[position] = create_piece(piece_designator);
+    
+    // error handling
+    // invalid piece designator
+    // invalid specified end position
+    // position is taken up by another piece
+
+    occ[position] = create_piece(piece_designator); // creates an object of a class representing a specific piece
   }
 
   void Board::display() const {
@@ -34,6 +40,7 @@ namespace Chess
     // [REPLACE THIS STUB] //
     /////////////////////////
   }
+
 
   bool Board::has_valid_kings() const {
     int white_king_count = 0;
