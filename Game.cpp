@@ -1,5 +1,6 @@
 #include <cassert>
 #include "Game.h"
+#include <stdlib.h>//abs() for make_move function
 
 namespace Chess
 {
@@ -38,9 +39,70 @@ namespace Chess
 		board.add_piece(Position( 'A'+4 , '1'+7 ) , 'k' );
 	}
 
+	// checks if path is clear for Rook movement
+	void Game::rook_path_clear(const Piece*, bool& path_clear) {
+
+		char row = start.second + 1;
+		char col = start.first + 1;
+
+		while (path_clear) {
+			// checks for pieces in horizontal path
+			// will not execute if path is vertical
+			for (int i = 0; i < abs(end.first - start.first); i++) {
+				Position pos = std::make_pair(col, start.second);
+				if (board(pos) != nullptr) {
+					path_clear = false;
+				}
+				// incrementing row
+				if (end.first - start.first > 0) {
+					col++;
+				}
+				else {
+					col--;
+				}
+			}
+			// checks for pieces in vertical path
+			// will not execute if path is horizontal
+			for (int i = 0; i < abs(end.second - start.second); i++) {
+				Position pos = std::make_pair(start.first, row);
+				if (board(pos) != nullptr) {
+					path_clear = false;
+				}
+				// incrementing col
+				if (end.second - start.second > 0) {
+					row++;
+				}
+				else {
+					row--;
+				}
+			}
+		}
+	}
+
 	void Game::make_move(const Position& start, const Position& end) {
 
-		// if 
+		bool path_clear = true;
+		bool make_move = true;
+
+		if(board(start) == nullptr) {
+			throw Exception("no piece at start position");
+		}
+
+		Piece * piece = occ[start];
+
+		// if statements to call helper functions that check if path is
+		// clear for a certain piece
+
+		// check if path is clear
+		// if path is not clear, make_move = false
+
+
+
+
+		// makes the move if make_move = true
+
+
+
 		// include error handling if valid_positions == false
 		// call these functions:
 		// legal_move_position
