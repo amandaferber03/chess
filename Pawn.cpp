@@ -47,7 +47,27 @@ namespace Chess
       if ((end.first == start.first - 1 || end.first == start.first + 1) && (end.second == start.second - 1)) {
         return true;
       }
-	  }
+    }
 
     return false;
+  }
+
+  char to_ascii() const {
+    if(is_white()) {
+      return 'P';
+    }
+    else {
+      return 'p';
+    }
+  }
+
+  std::string to_unicode() const {
+    if(is_white()) {
+      return "U+2659";
+    }
+    else {
+      return "U+265F";
+    }
+  }
+   
 }

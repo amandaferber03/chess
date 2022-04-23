@@ -48,7 +48,7 @@ namespace Chess
 		while (path_clear) {
 			// checks for pieces in horizontal path
 			// will not execute if path is vertical
-			for (int i = 0; i < abs(end.first - start.first); i++) {
+			for (int i = 0; i < abs(end.first - start.first) - 1; i++) {
 				Position pos = std::make_pair(col, start.second);
 				if (board(pos) != nullptr) {
 					path_clear = false;
@@ -63,7 +63,7 @@ namespace Chess
 			}
 			// checks for pieces in vertical path
 			// will not execute if path is horizontal
-			for (int i = 0; i < abs(end.second - start.second); i++) {
+			for (int i = 0; i < abs(end.second - start.second) - 1; i++) {
 				Position pos = std::make_pair(start.first, row);
 				if (board(pos) != nullptr) {
 					path_clear = false;
@@ -88,8 +88,34 @@ namespace Chess
 			throw Exception("no piece at start position");
 		}
 
-		Piece * piece = occ[start];
-
+		Piece * piece = board(start);
+		char piece_type = piece.to_ascii();
+		
+		if (piece_type == 'P' || piece_type == 'p') {
+		  if(board(end) == nullptr) {
+		    make_move = piece.legal_move_shape();
+		  }
+		  else {
+		    make_move =	piece.legal_capture_shape();
+		    if(make_move) {
+		      board.get_occ().erase(end);
+		    }
+		  }
+		}
+		else if(piece.legal_move_shape()) {
+		  switch (piece_type) {
+		  case 'R':
+		  case 'r': rook_path_clear(piece, path_clear);
+		    break;
+		  case 'B':
+		  case 'b': bishop_path_clear(piece, path_clear);
+		    break;
+		  case 'Q':
+		  case 'q': queen_path_clear(piece, path_clear);
+		    break;
+		    
+		
+		 		  
 		// if statements to call helper functions that check if path is
 		// clear for a certain piece
 

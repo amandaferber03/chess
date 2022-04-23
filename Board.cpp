@@ -41,7 +41,10 @@ namespace Chess
     /////////////////////////
   }
 
-
+  std::map<Position, Piece*> Board::get_occ() const {
+    return occ;
+  }
+  
   bool Board::has_valid_kings() const {
     int white_king_count = 0;
     int black_king_count = 0;

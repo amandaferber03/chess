@@ -10,4 +10,22 @@ namespace Chess
 
     return false;
   }
+
+  char to_ascii() const {
+    if(is_white()) {
+      return 'N';
+    }
+    else {
+      return 'n';
+    }
+  }
+
+  std::string to_unicode() const {
+    if(is_white()) {
+      return "U+2658";
+    }
+    else {
+      return "U+265E";
+    }
+  }
 }

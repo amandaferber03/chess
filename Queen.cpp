@@ -9,4 +9,21 @@ namespace Chess
     /////////////////////////                                         
     return false;
   }
+  char to_ascii() const {
+    if(is_white()) {
+      return 'Q';
+    }
+    else {
+      return 'q';
+    }
+  }
+
+  std::string to_unicode() const {
+    if(is_white()) {
+      return "U+2655";
+    }
+    else {
+      return "U+265B";
+    }
+  }
 }

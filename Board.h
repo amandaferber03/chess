@@ -39,10 +39,13 @@ namespace Chess
 
 		// Displays the board by printing it to stdout
 		void display() const;
-
+    
 		// Returns true if the board has the right number of kings on it
 		bool has_valid_kings() const;
 
+                std::map<Position, Piece*> get_occ() const;
+    
+ 
 
 	private:
 		// The sparse map storing the pieces, keyed off locations
