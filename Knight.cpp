@@ -6,7 +6,19 @@ namespace Chess
     // Moves in an L-shape either 2-by-1 or 1-by-2
     // Only piece that can move through other pieces
 
-    
+	//Vertical L
+	if (end.first = start.first + 1 || end.first = start.first - 1) {
+		if (end.second = end.second + 2 || end.second = end.second - 2) {
+			return true;
+		}
+	}
+	
+	//Horizontal L
+	if (end.second = start.second + 2 || end.second = start.second - 2) {
+		if (end.first = end.first + 1 || end.second = end.first - 1) {
+			return true;
+		}
+	}
 
     return false;
   }
