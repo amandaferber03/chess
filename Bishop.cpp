@@ -9,7 +9,6 @@ namespace Chess
        }
    	}
    	return false;
- 	}
   }
 
   char to_ascii() const {

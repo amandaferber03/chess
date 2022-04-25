@@ -3,23 +3,20 @@
 namespace Chess
 {
   bool Knight::legal_move_shape(const Position& start, const Position& end) const {
-    // Moves in an L-shape either 2-by-1 or 1-by-2
-    // Only piece that can move through other pieces
 
-	//Horizontal L
-	if (end.first = start.first + 1 || end.first = start.first - 1) {
-		if (end.second = end.second + 2 || end.second = end.second - 2) {
-			return true;
-		}
-	}
+	  // vertical L
+	  if (end.first = start.first + 1 || end.first = start.first - 1) {
+		  if (end.second = start.second + 2 || end.second = start.second - 2) {
+			  return true;
+		  }
+	  }
 	
-	//Vertical L
-	if (end.second = start.second + 2 || end.second = start.second - 2) {
-		if (end.first = end.first + 1 || end.second = end.first - 1) {
-			return true;
-		}
-	}
-
+    // horizontal L
+    if (end.second = start.second + 1 || end.second = start.second - 1) {
+      if (end.first = start.first + 2 || end.second = start.first - 2) {
+        return true;
+      }
+    }
     return false;
   }
 
