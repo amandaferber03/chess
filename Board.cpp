@@ -36,9 +36,15 @@ namespace Chess
   }
 
   void Board::display() const {
-    /////////////////////////
-    // [REPLACE THIS STUB] //
-    /////////////////////////
+    //Setting Background Color
+
+	color_bg(bright, MAGENTA);
+
+	//Setting Foreground Color
+
+	color_fg(bright, BLACK);
+
+	//TODO: Ask in Office Hours what exactly to do here :)
   }
 
   std::map<Position, Piece*> Board::get_occ() const {
