@@ -134,22 +134,39 @@ namespace Chess
 	}
 
 
-	void Game::queen_path_clear(const Position& start, const Position& end) {
+	bool Game::queen_path_clear(const Position& start, const Position& end) {
+          // check if diagonal path is clear
+	  int diag_col = abs(end.first - start.first);
+	  int diag_row = abs(end.second - start.second);
 
-		// check if diagonal path is clear
-		return bishop_path_clear(const Position& start, const Position& end);
-
-		// check if horizontal path is clear
-
-
-		// check if vertical path is clear
-
+	  if(diag_col == diag_row) {
+	    return bishop_path_clear(const Position& start, const Position& end);
+	  }
+	  else {//check if horizontal or vertical path is clear
+	    return rook_path_clear(const Position& start, const Position& end);
+	  }
 	}
 
-	void Game::make_move(const Position& start, const Position& end) {
+        bool Game::mystery_path_clear(const Position& start, const Position& end) {
+          // check if diagonal path is clear                                                                                                   
+          int diag_col = abs(end.first - start.first);
+          int diag_row = abs(end.second - start.second);
 
-		bool path_clear = true;
-		bool make_move = true;
+	  bool vertical = start.first == end.first;
+	  bool horizontal = start.second == end.second;
+
+          if(diag_col == diag_row) {
+            return bishop_path_clear(const Position& start, const Position& end);
+          }
+          else if (vertical || horizontal) {//check if horizontal or vertical path is clear                                                   
+            return rook_path_clear(const Position& start, const Position& end);
+          }
+	  else {
+	    return true;
+	  }
+        }
+
+	void Game::make_move(const Position& start, const Position& end) {
 
 		// checks if piece exists at starting position 
 		if (board(start) == nullptr) {
@@ -162,25 +179,17 @@ namespace Chess
 		}
 
 		Piece * piece = board(start);
-		char piece_type = piece.to_ascii();
-		
-		/*
-		if (piece_type == 'P' || piece_type == 'p') {
-		  if(board(end) == nullptr) {
-		    make_move = piece.legal_move_shape();
-		  }
-		  else {
-		    make_move =	piece.legal_capture_shape();
-		    if(make_move) {
-		      board.get_occ().erase(end);
-		    }
-		  }
+
+		if(piece.is_white() != turn_white()) {
+		  throw Exception("piece color and turn do not match");
 		}
-		*/
+		
+		char piece_type = piece.to_ascii();
+		bool path_clear = true;
 
 		// for Knight and King, don't need to check if path is clear
 
-		else if(piece.legal_move_shape()) {
+		if(piece.legal_move_shape() || piece.legal_capture_shape()) {
 			switch (piece_type) {
 				case 'R':
 				case 'r': 
@@ -200,32 +209,57 @@ namespace Chess
 						path_clear = pawn_path_clear(start);
 					}
 					break;
+			        case 'M':
+			        case 'm':
+				        path_clear = mystery_path_clear(start, end);
+			        default: break;
 			}
+			
 		}
-		    
+		else if (board(end) != nullptr){
+		  throw Exception("illegal capture shape");
+		}
+		else {
+		  throw Exception("illegal move shape");
+		}
+
 		
-		 		  
-		// if statements to call helper functions that check if path is
-		// clear for a certain piece
+		if(path_clear) {
+		  if(board(end) != nullptr) {
+		    Piece * captured_piece = board(end);
+		    if(captured_piece.is_white() != turn_white()) {
+		    //do we need to add something here to VISUALLY remove the captured piece from the
+		    //board, or can we simply update the map?
+		    }
+		    else {
+		      throw Exception("cannot capture own piece");
+		    }
+		  }
+		}
+		else {
+		  throw Exception("path is not clear");
+		}
+   
+		bool exposes_check = exposes_check(start, end);
 
-		// check if path is clear
-		// if path is not clear, make_move = false
+		if(!exposes_check) {
+		  board.get_occ()[end] = piece;
+		  board.get_occ().erase(start); // OR board.get_occ()[start] = nullptr
+		  
+                  //do we need to add something here to ensure that the piece is VISUALLY removed                                                               //from its current position and added at the new position
 
-
-
-
-		// makes the move if make_move = true
-
-
-
-		// include error handling if valid_positions == false
-		// call these functions:
-		// legal_move_position
-		// legal_capture_position
-			// update point value
-			// create a field representing point value? how do we store the point value of each player?
+		  //should we use the add_piece() function
+		  is_white_turn = !is_white_turn;
+		  return true;
+		}
+		else {
+		  throw Exception("move exposes check");
+		}
 	}
-
+		
+        bool Game::exposes_check(const Position& start, const Position& end) {
+	  //TODO: Implement this function
+        }
 	bool Game::in_check(const bool& white) const {
 		/////////////////////////
 		// [REPLACE THIS STUB] //
@@ -251,10 +285,27 @@ namespace Chess
 
     // Return the total material point value of the designated player
     int Game::point_value(const bool& white) const {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
-        return -1;
+      //TODO: check to see if this is right
+      //traverse through the white pieces of the map to see which ones are still there
+      int points = 0;
+      std::map<Position, Piece*> board_occ = board.get_occ();
+      for(std::map<Position, Piece*>::iterator it = board_occ.start();
+	  it != board_occ_end();
+	  ++it) {
+	if(it->second.is_white() == white) {
+	  char piece_type = toupper(it->second.to_ascii());//TODO: do we need to #include something special for this
+	  switch (piece_type) {
+	  case 'P': points += 1;
+	  case 'N': points += 3;
+	  case 'B': points += 3;
+	  case 'R': points += 5;
+	  case 'Q': points += 9;
+	  case 'M': points += it->second.point_value();
+	  default: break;
+	  }
+	}
+      }
+      return points;
     }
 
 

@@ -42,9 +42,12 @@ namespace Chess
 
 		// Checks if path is clear for Bishop movement
 		bool bishop_path_clear(const Position& start, const Position& end);
-
-	         bool queen_path_clear(const Position& start, const Position& end);
-
+	        //Checks if path is clear for Queen movement
+	        bool queen_path_clear(const Position& start, const Position& end);
+	        //Checks if path is clear for Mystery movement
+	        bool mystery_path_clear(const Position& start, const Position& end);
+	        //Checks if a move exposes check
+	        bool exposes_check(const Position& start, const Position& end);
 		// Attempts to make a move. If successful, the move is made and
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
 		void make_move(const Position& start, const Position& end);
