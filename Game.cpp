@@ -257,13 +257,40 @@ namespace Chess
 	}
 		
         bool Game::exposes_check(const Position& start, const Position& end) {
-	  //TODO: Implement this function
+	  Game game_replica = *this; 
+	  game_replica.board.get_occ()[end] = board(start);
+	  game_replica.board.get_occ().erase(start);
+	  if(game_replica.in_check()) {
+	      return true;
+	  }
+	  else {
+	      return false;
+	  }
         }
 	bool Game::in_check(const bool& white) const {
 		/////////////////////////
 		// [REPLACE THIS STUB] //
 		/////////////////////////
-		return false;
+
+	  std::map<Position, Piece*> board_occ = board.get_occ();
+	  Position king_pos;
+          for(std::map<Position, Piece*>::iterator it = board_occ.start();
+             it != board_occ.end();
+             ++it) {
+	    if(it->second.is_white() == white) {
+	      char piece_type = toupper(it->second.to_ascii());
+	      if(piece_type == 'K') {
+		king_pos = it->first;
+	      }
+	    }
+	  }
+
+	  for(std::map<Position, Piece*>::iterator it = board_occ.start();
+             it != board_occ.end();
+             ++it) {
+	    if(it->second.is_white() != white) {
+	    }
+	  return false;
 	}
 
 
@@ -289,9 +316,9 @@ namespace Chess
       int points = 0;
       std::map<Position, Piece*> board_occ = board.get_occ();
       for(std::map<Position, Piece*>::iterator it = board_occ.start();
-	  it != board_occ_end();
+	  it != board_occ.end();
 	  ++it) {
-	if(it->second.is_white() == white) {
+	if(it->second.is_white() == white) {//if the color of the piece matches whose turn it is
 	  char piece_type = toupper(it->second.to_ascii());//TODO: do we need to #include something special for this
 	  switch (piece_type) {
 	  case 'P': points += 1;
