@@ -180,16 +180,16 @@ namespace Chess
 
 		Piece * piece = board(start);
 
-		if(piece.is_white() != turn_white()) {
-		  throw Exception("piece color and turn do not match");
+		// checks if turn doesn't correspond with right piece color
+		if (piece.is_white() != turn_white()) {
+			throw Exception("piece color and turn do not match");
 		}
 		
 		char piece_type = piece.to_ascii();
 		bool path_clear = true;
 
-		// for Knight and King, don't need to check if path is clear
-
-		if(piece.legal_move_shape() || piece.legal_capture_shape()) {
+		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
+		if (piece.legal_move_shape() || piece.legal_capture_shape()) {
 			switch (piece_type) {
 				case 'R':
 				case 'r': 
@@ -209,44 +209,43 @@ namespace Chess
 						path_clear = pawn_path_clear(start);
 					}
 					break;
-			        case 'M':
-			        case 'm':
-				        path_clear = mystery_path_clear(start, end);
-			        default: break;
+			    case 'M':
+			    case 'm':
+				    path_clear = mystery_path_clear(start, end);
+			    default: break;
 			}
-			
 		}
+		// piece does not exist at end position
 		else if (board(end) != nullptr){
-		  throw Exception("illegal capture shape");
+			throw Exception("illegal capture shape");
 		}
 		else {
-		  throw Exception("illegal move shape");
+			throw Exception("illegal move shape");
 		}
 
-		
-		if(path_clear) {
-		  if(board(end) != nullptr) {
-		    Piece * captured_piece = board(end);
-		    if(captured_piece.is_white() != turn_white()) {
-		    //do we need to add something here to VISUALLY remove the captured piece from the
-		    //board, or can we simply update the map?
-		    }
-		    else {
-		      throw Exception("cannot capture own piece");
-		    }
-		  }
+		// checks if the user is trying to capture the opponent's piece if the path is clear
+		if (path_clear) {
+		  	if (board(end) != nullptr) {
+		    	Piece * captured_piece = board(end);
+		    	if (captured_piece.is_white() == turn_white()) {
+					throw Exception("cannot capture own piece");
+		    	}
+		  	}
 		}
 		else {
-		  throw Exception("path is not clear");
+		  	throw Exception("path is not clear"); 
 		}
    
 		bool exposes_check = exposes_check(start, end);
 
+		// checks if movement exposes check
 		if(!exposes_check) {
-		  board.get_occ()[end] = piece;
-		  board.get_occ().erase(start); // OR board.get_occ()[start] = nullptr
+			// updates pair in map representing end position with new piece and deletes key representing piece at start position
+			board.get_occ()[end] = piece;
+			board.get_occ().erase(start);
+
+			// TODO: ensure the piece is visually removed from start position and added to end position using functions in Board.h
 		  
-                  //do we need to add something here to ensure that the piece is VISUALLY removed                                                               //from its current position and added at the new position
 
 		  //should we use the add_piece() function
 		  is_white_turn = !is_white_turn;
