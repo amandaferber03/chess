@@ -48,7 +48,9 @@ namespace Chess
 	        bool mystery_path_clear(const Position& start, const Position& end);
 	        //Checks if a move exposes check
 	        bool exposes_check(const Position& start, const Position& end);
-		// Attempts to make a move. If successful, the move is made and
+	        //checks if a move shape is legal and a path is clear
+	        bool legal_move_path(const Position& start, const Position& end);
+	        // Attempts to make a move. If successful, the move is made and
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
 		void make_move(const Position& start, const Position& end);
 

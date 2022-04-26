@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
 					try {
 						game.make_move(std::make_pair(argument[0], argument[1]), std::make_pair(argument[2], argument[3]));
 					}
-					catch (const std::invalid_argument& e) {
+					catch (const std::exception& e) {
 						std::cerr << "Could not make move: " << e.what() << std::endl;
 					}
 					
