@@ -272,6 +272,40 @@ namespace Chess
 	      return false;
 	  }
         }
+        bool Game::end_of_game(const bool& white) const {
+          std::map<Position, Piece*> board_occ = board.get_occ();
+	  bool legal_move = false;
+          for(std::map<Position, Piece*>::iterator outer_it = board_occ.start();
+             outer_it != board_occ.end();
+             ++outer_it) {
+            if(outer_it->second.is_white() == white) {
+              char first_pos = 'A';
+              char second_pos = '1';
+              int counter = 0;
+              for(int i = 0; i < 64; i++) {
+                second_pos += counter;
+                if(counter < 7) {
+                  counter++;
+                }
+                else {
+                  counter = 0;
+		  second_pos = '1';
+                  first_pos++;
+                }
+                Position end_pos = std::make_pair(first_pos, second_pos);
+                Game game_replica = *this;
+                try {
+                  game_replica.make_move(outer_it->first, end_pos);
+                }
+                catch(const std::exception& e) {
+                  continue;
+                }
+                legal_move = true;
+              }
+            }
+          }
+          return !legal_move;
+  }
 	bool Game::in_check(const bool& white) const {
 		/////////////////////////
 		// [REPLACE THIS STUB] //
@@ -306,39 +340,12 @@ namespace Chess
 		/////////////////////////
 		// [REPLACE THIS STUB] //
 		/////////////////////////
-	  //if the game is in check:
-	  bool legal_move = false;
-	  for(std::map<Position, Piece*>::iterator outer_it = board_occ.start();
-             outer_it != board_occ.end();
-             ++outer_it) {
-	    if(outer_it->second.is_white() == white) {
-	      char first_pos = 'A';
-	      char second_pos = '1';
-	      int counter = 0;
-	      for(int i = 0; i < 64; i++) {
-		second_pos += counter;
-		if(counter < 7) {
-		  counter++;
-		}
-		else {
-		  counter = 0;
-		  first_pos++;
-		}
-		Position end_pos = std::make_pair(first_pos, second_pos);
-		Game game_replica = *this; 
-		try {
-		  game_replica.make_move(outer_it->first, end_pos);
-		}
-		catch(const std::exception& e) {
-		  continue;
-		}
-		legal_move = true;
-	      }
-	    }
+          if(in_check()) {
+	    return end_of_game(white);
 	  }
-	  return !legal_move;
-	    
-	      
+	  else {
+	    return false;
+	  }
 	}
 
 
@@ -346,37 +353,12 @@ namespace Chess
 		/////////////////////////
 		// [REPLACE THIS STUB] //
 		/////////////////////////
-          //if the game is not in check
-	  bool legal_move = false;
-          for(std::map<Position, Piece*>::iterator outer_it = board_occ.start();
-             outer_it != board_occ.end();
-             ++outer_it) {
-            if(outer_it->second.is_white() == white) {
-              char first_pos = 'A';
-              char second_pos = '1';
-              int counter = 0;
-              for(int i = 0; i < 64; i++) {
-                second_pos += counter;
-                if(counter < 7) {
-                  counter++;
-                }
-                else {
-                  counter = 0;
-                  first_pos++;
-                }
-                Position end_pos = std::make_pair(first_pos, second_pos);
-                Game game_replica = *this;
-                try {
-                  game_replica.make_move(outer_it->first, end_pos);
-                }
-                catch(const std::exception& e) {
-                  continue;
-                }
-                legal_move = true;
-              }
-            }
-          }
-          return !legal_move;
+          if(!in_check()) {
+	    return end_of_game(white);
+	  }
+	  else {
+	    return false;
+	  }
 	}
 
     // Return the total material point value of the designated player

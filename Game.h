@@ -53,7 +53,9 @@ namespace Chess
 	        // Attempts to make a move. If successful, the move is made and
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
 		void make_move(const Position& start, const Position& end);
-
+    
+	        bool end_of_game(const bool& white) const;
+	  
 		// Returns true if the designated player is in check
 		bool in_check(const bool& white) const;
 
