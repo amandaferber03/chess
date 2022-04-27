@@ -20,21 +20,6 @@ void show_commands() {
 	std::cout << "\t                followed by the column and row of the end position" << std::endl;
 }
 
-bool check_positions(const Position& start, const Position& end) {
-	
-	bool valid_start = (start.first >= 'A' && start.first <= 'H') && (start.second >= '1' && start.second <= '8');
-	if (!valid_start) {
-		throw Exception("start position is not on board");
-	} 
-
-    bool valid_end = (end.first >= 'A' && end.first <= 'H') && (end.second >= '1' && end.second <= '8');
-	if (!valid_end) {
-		throw Exception("end position is not on board");	
-	}
-
-	return valid_start && valid_end;
-}
-
 int main(int argc, char* argv[]) {
 	Chess::Game game;
 
@@ -135,12 +120,6 @@ int main(int argc, char* argv[]) {
 				// And make the move
 				} else {
 					// TODO: add try catch blocks to recover from illegal moves
-					try {
-				 		check_positions(std::make_pair(argument[0], argument[1]), std::make_pair(argument[2], argument[3]));
-					}
-					catch (const std::invalid_argument& e) {
-						std::cerr << "Could not make move: " << e.what() << std::endl;
-					}
 					try {
 						game.make_move(std::make_pair(argument[0], argument[1]), std::make_pair(argument[2], argument[3]));
 					}

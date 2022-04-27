@@ -10,7 +10,6 @@
 #include <string>
 
 using std::string;
-using std::string::at;
 using std::cout;
 using std::endl;
 
@@ -22,10 +21,12 @@ namespace Chess
   Board::Board(){}
 
   const Piece* Board::operator()(const Position& position) const {
-    if (occ[position] == nullptr) {
+    
+    if (occ.at(position) == nullptr) {
       return NULL;
     }
-    return occ[position];
+
+    return occ.at(position);
   }
   
   void Board::add_piece(const Position& position, const char& piece_designator) {
@@ -36,8 +37,8 @@ namespace Chess
     bool piece_exists = false;
 
     // updates valid_designator if applicable
-    for (int i = 0; i < valid_piece_designators.length(); i++) {
-      if (piece_designator.compare(valid_piece_designators.at(i)) == 0) {
+    for (size_t i = 0; i < valid_piece_designators.length(); i++) {
+      if (piece_designator == valid_piece_designators.at(i)) {
         valid_designator = true;
         break;
       }
@@ -66,9 +67,85 @@ namespace Chess
 
     // updates map if an exception is not thrown
     occ[position] = create_piece(piece_designator);
+
   }
 
+  // colors the tiles 
   void Board::display() const {
+
+    char first_pos = 'A';
+    char second_pos = '8';
+    int row_num = 8;
+
+    // prints beginning of display
+    cout << " ABCDEFGH " << endl;
+    cout << " -------- " << endl;
+
+    for (int i = 0; i < 64; i++) {
+      // adds row numbers to left-hand side of board
+      if (i % 8 == 0 && row_num > 0) {
+        cout << row_num << " ";
+      }
+
+      // sets colors of tiles for even rows
+      if (row_num % 2 == 0) {
+        if (i % 2 == 0) {
+          Terminal::color_bg(Terminal::MAGENTA);
+        }
+        else {
+          Terminal::color_bg(Terminal::BLACK);
+        }
+      }
+      // sets colors of tiles for odd rows
+      else {
+        if (i % 2 == 1) {
+          Terminal::color_bg(Terminal::MAGENTA);
+        }
+        else {
+          Terminal::color_bg(Terminal::BLACK);
+        }
+      }
+
+      /*
+      // adds piece to board if piece exists at position
+      Position pos = std::make_pair(first_pos, second_pos);
+      if (occ[pos] != nullptr) {
+        // TODO: Do we need to change the color of piece
+        Piece * piece = occ[pos];
+        cout << piece.to_unicode.c_str();
+      }
+      else {
+
+        cout << " ";
+      }
+      */
+
+      // adds row numbers to right-hand side of board
+      if (i % 7 == 0 && i != 0) {
+        cout << row_num << " ";
+        row_num--;
+      }
+
+      // updates position
+      if (i % 7 == 0 && second_pos > 0) {
+        second_pos--;
+      }
+      first_pos++;
+    }
+   
+    // prints end of display
+    cout << " ABCDEFGH " << endl;
+    cout << " -------- " << endl;
+  }
+
+  /*
+  void Board::display() const {
+
+    // helper function 1: even second position, colors every other tile starting at A
+    // helper function 2: odd second position, colors every other tile starting at B
+    // helper function 3: add piece to the board
+
+
     
     // setting background color
 	  color_bg(bright, BLACK);
@@ -81,24 +158,27 @@ namespace Chess
     for (int i = 8; i >=1; i--) {
       char first_pos = 'A';
       if (i % 2 == 0) {
-        cout<< i << " ";
-        //Starting to draw tiles
-        for (int j = 8; j >=1; j--) {
-          //Alternating background colors
+        cout<< i << " "; // 8, 
+  
+        for (int j = 8; j >= 1; j--) {
+          // alternates background colors
           if (j % 2 == 0)  {
-            Position pos = std::make_pair(first_pos, i);
-            //If tile has no piece
+            Position pos = std::make_pair(first_pos, i); // A8
+            // tile has no piece
             if(occ[pos] == nullptr) {
-              color_bg(bright, MAGENTA);
+              color_all(bright, MAGENTA);
               cout<<" ";
             }
             else {
+              color_bg(bright, MAGENTA);
               Piece * piece = occ[pos];
-              cout << piece.to_unicode();
+              cout << piece.to_unicode().c_str();
             }
           }
+
+          // next column
           else {
-            //If tile has no piece
+            //Alternating color to black 
             color_bg(bright, BLACK);
             cout<<" ";
           }
@@ -138,7 +218,7 @@ namespace Chess
     std::cout<< "  --------  "<<std::endl;
     std::cout<< "  ABCDEFGH  "<<std::endl;
   }
-
+  */
 
   std::map<Position, Piece*> Board::get_occ() const {
     return occ;

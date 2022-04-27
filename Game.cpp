@@ -212,8 +212,25 @@ namespace Chess
 		}
 		return path_clear;
     }
+
+	void check_positions(const Position& start, const Position& end) {
+	
+		bool valid_start = (start.first >= 'A' && start.first <= 'H') && (start.second >= '1' && start.second <= '8');
+		if (!valid_start) {
+			throw Exception("start position is not on board");
+		} 
+
+		bool valid_end = (end.first >= 'A' && end.first <= 'H') && (end.second >= '1' && end.second <= '8');
+		if (!valid_end) {
+			throw Exception("end position is not on board");	
+		}
+
+	}
   
 	void Game::make_move(const Position& start, const Position& end) {
+
+		// throws an Exception if start and/or end position(s) are invalid
+		check_positions(start, end);
 
 		// checks if piece exists at starting position 
 		if (board(start) == nullptr) {
