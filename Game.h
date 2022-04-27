@@ -35,7 +35,7 @@ namespace Chess
 		bool is_valid_game() const { return board.has_valid_kings(); }
 
 		// Checks if path is clear for Rook movement
-		bool rook_path_clear(const Position& start, const Position& end);
+		bool  rook_path_clear(const Position& start, const Position& end);
 
 		// Checks if path is clear for Pawn movement
 		bool pawn_path_clear(const Position& start);

@@ -45,12 +45,10 @@ namespace Chess
 	}
 
 	// checks if path is clear for Rook movement
-	void Game::rook_path_clear(const Position& start, const Position& end) {
-
+	bool Game::rook_path_clear(const Position& start, const Position& end) {
 		char row = start.second + 1;
 		char col = start.first + 1;
 
-		while (path_clear) {
 			// checks for pieces in horizontal path
 			// will not execute if path is vertical
 			for (int i = 0; i < abs(end.first - start.first) - 1; i++) {
@@ -81,10 +79,10 @@ namespace Chess
 					row--;
 				}
 			}
-		}
+			return true;
 	}
 
-	void Game::pawn_path_clear(const Position& start) {
+	bool Game::pawn_path_clear(const Position& start) {
 		
 		char row = start.second + 1;
 		Position pos = std::make_pair(start.first, row);
@@ -92,6 +90,7 @@ namespace Chess
 		if (board(pos) != nullptr) {
 			return false;
 		}
+		return true;
 	}
 
 	bool Game::bishop_path_clear(const Position& start, const Position& end) {
@@ -100,20 +99,22 @@ namespace Chess
 		int row = start.second;
 		int col = start.first;
 
+		std::map<Position, Piece *> board_occ = board.get_occ();
+
 		for (int i = 1; i < num_spaces; i++) {
 			// upwards movement
 			if (end.second - start.second > 0) {
 				// up-right movement
 				if (end.first - start.first > 0) {
 					Position pos = std::make_pair(col + num_spaces, row + num_spaces);
-					if (pos != nullptr) {
+					if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
 				// up-left movement
 				else {
 					Position pos = std::make_pair(col - num_spaces, row + num_spaces);
-					if (pos != nullptr) {
+					if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
@@ -122,22 +123,22 @@ namespace Chess
 			else {
 				// down-right movement
 				if (end.first - start.first > 0) {
-					Position pos = std:make_pair(col + num_spaces, row - num_spaces);
-					if (pos != nullptr) {
+				  Position pos = std::make_pair(col + num_spaces, row - num_spaces);
+				  if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
 				// down-left movement
 				else {
 					Position pos = std::make_pair(col - num_spaces, row - num_spaces);
-					if (pos != nullptr) {
+					if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
 			}
-    	}
+		}
+		return true;
 	}
-
 
 	bool Game::queen_path_clear(const Position& start, const Position& end) {
           // check if diagonal path is clear
@@ -145,10 +146,10 @@ namespace Chess
 	  int diag_row = abs(end.second - start.second);
 
 	  if(diag_col == diag_row) {
-	    return bishop_path_clear(const Position& start, const Position& end);
+	    return bishop_path_clear(start, end);
 	  }
 	  else {//check if horizontal or vertical path is clear
-	    return rook_path_clear(const Position& start, const Position& end);
+	    return rook_path_clear(start, end);
 	  }
 	}
 
@@ -161,10 +162,10 @@ namespace Chess
 	  bool horizontal = start.second == end.second;
 
           if(diag_col == diag_row) {
-            return bishop_path_clear(const Position& start, const Position& end);
+            return bishop_path_clear(start, end);
           }
           else if (vertical || horizontal) {//check if horizontal or vertical path is clear                                                   
-            return rook_path_clear(const Position& start, const Position& end);
+            return rook_path_clear(start, end);
           }
 	  else {
 	    return true;
@@ -172,8 +173,8 @@ namespace Chess
         }
 
         bool Game::legal_move_path(const Position& start, const Position& end) {
-                Piece * piece = board(start);
-                char piece_type = piece.to_ascii();
+                const Piece * piece = board(start);
+                char piece_type = piece->to_ascii();
 		bool path_clear = true;
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
@@ -242,10 +243,10 @@ namespace Chess
 		  throw Exception("illegal move shape");
 		}
 
-		Piece * piece = board(start);
+		const Piece * piece = board(start);
 
 		// checks if turn doesn't correspond with right piece color
-		if (piece.is_white() != turn_white()) {
+		if (piece->is_white() != turn_white()) {
 			throw Exception("piece color and turn do not match");
 		}
 		
@@ -254,8 +255,8 @@ namespace Chess
 		// checks if the user is trying to capture the opponent's piece if the path is clear
 		if (path_clear) {
 		   	if (board(end) != nullptr) {
-		    	Piece * captured_piece = board(end);
-		      	if (captured_piece.is_white() == turn_white()) {
+		    	const Piece * captured_piece = board(end);
+		      	if (captured_piece->is_white() == turn_white()) {
 					throw std::logic_error("cannot capture own piece");
 		    	}
 		   	}
@@ -285,7 +286,7 @@ namespace Chess
 		
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this; 
-		game_replica.board.get_occ()[end] = board(start); // piece will be at ending position
+		game_replica.board.get_occ().at(end) = board(start); // piece will be at ending position
 		game_replica.board.get_occ().erase(start); // piece deleted from starting position
 
 	  	// checks if move causes check to be exposed
