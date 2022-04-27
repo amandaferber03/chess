@@ -18,6 +18,8 @@ namespace Chess
     
     std::string to_unicode() const override { return is_white() ? "\u2687" : "\u2689"; }
 
+	  int point_value() const override { return 5; }
+
 	private:
 		Mystery(bool is_white) : Piece(is_white) {}
 

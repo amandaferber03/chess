@@ -35,6 +35,8 @@ namespace Chess
 			return legal_move_shape(start, end);
 		}
 
+	  virtual int point_value() const = 0;
+
 		// Returns a character representing the piece type. Characters are:
     //    Piece     White   Black
 		//		King:     K       k

@@ -214,7 +214,7 @@ namespace Chess
 		return path_clear;
     }
 
-	void check_positions(const Position& start, const Position& end) {
+       void Game::check_positions(const Position& start, const Position& end) {
 	
 		bool valid_start = (start.first >= 'A' && start.first <= 'H') && (start.second >= '1' && start.second <= '8');
 		if (!valid_start) {
@@ -304,7 +304,7 @@ namespace Chess
 		// variable that indicates if player can make legal move to get out of check
 	    bool legal_move = false;
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
-            if (it->second.is_white() == white) {
+            if (it->second->is_white() == white) {
                	char first_pos = 'A';
                	char second_pos = '0';
                	int counter = 0;
@@ -343,23 +343,23 @@ namespace Chess
 
 		// iterates through each position in the board and determines position of King
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
-	    	if (it->second.is_white() == white) {
-	      		char piece_type = toupper(it->second.to_ascii());
-			}
-	      	if (piece_type == 'K') {
-				king_pos = it->first;
-	      	}
-	    }
+	    	if (it->second->is_white() == white) {
+		  char piece_type = toupper(it->second->to_ascii());
+	      	  if (piece_type == 'K') {
+		    king_pos = it->first;
+	      	   }
+	        }
 
 		// determines if piece could capture king of opposing player
-	  	for(std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+	  	for(std::map<Position, Piece*>::iterator inner_it = board_occ.begin(); inner_it != board_occ.end(); ++inner_it) {
 			// determines if piece is the opposite color
-	    	if (it->second.is_white() != white) {
+	    	if (it->second->is_white() != white) {
 				// calls legal_move_path of appropriate piece
-	      		possible_check = legal_move_path(it->first, king_pos);
-	    	}
-	  	}
-	  	return possible_check;
+	      		possible_check = legal_move_path(inner_it->first, king_pos);
+		}
+		}
+	}
+	return possible_check;
 	}
 
 
@@ -391,15 +391,15 @@ namespace Chess
       for(std::map<Position, Piece*>::iterator it = board_occ.begin();
 	  it != board_occ.end();
 	  ++it) {
-	if(it->second.is_white() == white) {//if the color of the piece matches whose turn it is
-	  char piece_type = toupper(it->second.to_ascii());//TODO: do we need to #include something special for this
+	if(it->second->is_white() == white) {//if the color of the piece matches whose turn it is
+	  char piece_type = toupper(it->second->to_ascii());//TODO: do we need to #include something special for this
 	  switch (piece_type) {
 	  case 'P': points += 1;
 	  case 'N': points += 3;
 	  case 'B': points += 3;
 	  case 'R': points += 5;
 	  case 'Q': points += 9;
-	  case 'M': points += it->second.point_value();
+	  case 'M': points += it->second->point_value();
 	  default: break;
 	  }
 	}
@@ -411,7 +411,7 @@ namespace Chess
     std::istream& operator>> (std::istream& is, Game& game) {
 
 		// variable to store map
-		std::map<Position, Piece*> board_occ = board.get_occ();
+		std::map<Position, Piece*> board_occ = game.board.get_occ();
 
 		// attempts to open file
 		if (!is.is_open()) {
@@ -426,14 +426,14 @@ namespace Chess
 		// captures each character in the file
 		while (is >> piece_symbol) {
 			if (piece_symbol == 'w') {
-				is_white_turn = true;
+				game.is_white_turn = true;
 			}
 			else if (piece_symbol == 'b') {
-				is_white_turn = false;
+				game.is_white_turn = false;
 			}
 			else if (piece_symbol != '-') {
 				Position pos = std::make_pair(first_pos, second_pos);
-				add_piece(pos, piece_symbol); // TODO: implement function
+				game.board.add_piece(pos, piece_symbol); // TODO: implement function
 			}
 
 			// updates position values
