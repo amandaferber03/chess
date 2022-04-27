@@ -11,6 +11,8 @@
 
 using std::string;
 using std::string::at;
+using std::cout;
+using std::endl;
 
 namespace Chess
 {
@@ -67,16 +69,76 @@ namespace Chess
   }
 
   void Board::display() const {
-    //Setting Background Color
+    
+    // setting background color
+	  color_bg(bright, BLACK);
 
-	color_bg(bright, MAGENTA);
+    // display for player 1
+    std::cout<< "  ABCDEFGH  "<<std::endl;
+    std::cout<< "  --------  "<<std::endl;
 
-	//Setting Foreground Color
+    // columns and board with pieces
+    for (int i = 8; i >=1; i--) {
+      char first_pos = 'A';
+      if (i % 2 == 0) {
+        cout<< i << " ";
+        //Starting to draw tiles
+        for (int j = 8; j >=1; j--) {
+          //Alternating background colors
+          if (j % 2 == 0)  {
+            Position pos = std::make_pair(first_pos, i);
+            //If tile has no piece
+            if(occ[pos] == nullptr) {
+              color_bg(bright, MAGENTA);
+              cout<<" ";
+            }
+            else {
+              Piece * piece = occ[pos];
+              cout << piece.to_unicode();
+            }
+          }
+          else {
+            //If tile has no piece
+            color_bg(bright, BLACK);
+            cout<<" ";
+          }
+          first_pos++;
+        }
+        cout<< " " << i << endl;
+      }
+      else {
+        cout<< i << " ";
+        //Starting to draw tiles
+        for (int j = 8; j >=1; j--) {
+          //Alternating background colors
+          if (j % 2 == 0)  {
+            Position pos = std::make_pair(first_pos, i);
+            //If tile has no piece
+            if(occ[pos] == nullptr) {
+              color_bg(bright, BLACK);
+              cout<<" ";
+            }
+            else {
+              Piece * piece = occ[pos];
+              cout << piece.to_unicode();
+            }
+          }
+          else {
+            //If tile has no piece
+            color_bg(bright, MAGENTA);
+            cout<<" ";
+          }
+          first_pos++;
+        }
+        cout<< " " << i << endl;
+      }
+    }
 
-	color_fg(bright, BLACK);
-
-	//TODO: Ask in Office Hours what exactly to do here :)
+    // end of display
+    std::cout<< "  --------  "<<std::endl;
+    std::cout<< "  ABCDEFGH  "<<std::endl;
   }
+
 
   std::map<Position, Piece*> Board::get_occ() const {
     return occ;
@@ -85,18 +147,16 @@ namespace Chess
   bool Board::has_valid_kings() const {
     int white_king_count = 0;
     int black_king_count = 0;
-    for (std::map<std::pair<char, char>, Piece*>::const_iterator it = occ.begin();
-	 it != occ.end();
-	 it++) {
+    for (std::map<std::pair<char, char>, Piece*>::const_iterator it = occ.begin(); it != occ.end(); it++) {
       if (it->second) {
-	switch (it->second->to_ascii()) {
-	case 'K':
-	  white_king_count++;
-	  break;
-	case 'k':
-	  black_king_count++;
-	  break;
-	}
+	      switch (it->second->to_ascii()) {
+	      case 'K':
+	        white_king_count++;
+	        break;
+	      case 'k':
+	        black_king_count++;
+	        break;
+	      }
       }
     }
     return (white_king_count == 1) && (black_king_count == 1);
@@ -108,12 +168,12 @@ namespace Chess
   std::ostream& operator<<(std::ostream& os, const Board& board) {
     for(char r = '8'; r >= '1'; r--) {
       for(char c = 'A'; c <= 'H'; c++) {
-	const Piece* piece = board(Position(c, r));
-	if (piece) {
-	  os << piece->to_ascii();
-	} else {
-	  os << '-';
-	}
+	      const Piece* piece = board(Position(c, r));
+	      if (piece) {
+	        os << piece->to_ascii();
+	      } else {
+	        os << '-';
+	      }
       }
       os << std::endl;
     }
