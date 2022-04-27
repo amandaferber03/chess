@@ -9,7 +9,7 @@ namespace Chess
        //ROOK-LIKE MOVEMENTS
        //Vertical
        if (start.first == end.first) {
-           return true
+	 return true;
        }
        //Horizontal
        if (start.second == end.second) {
@@ -22,26 +22,8 @@ namespace Chess
            if ((end.first == start.first + i || end.first == start.first - i) && (end.second == start.second + i || end.second == start.second + i)) {
                return true;
            }
-       }
- 
-   }                                      
+       }                                      
    return false;
   }
-  char to_ascii() const {
-    if(is_white()) {
-      return 'Q';
-    }
-    else {
-      return 'q';
-    }
-  }
 
-  std::string to_unicode() const {
-    if(is_white()) {
-      return "U+2655";
-    }
-    else {
-      return "U+265B";
-    }
-  }
 }

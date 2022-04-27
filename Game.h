@@ -35,25 +35,25 @@ namespace Chess
 		bool is_valid_game() const { return board.has_valid_kings(); }
 
 		// Checks if path is clear for Rook movement
-		bool  rook_path_clear(const Position& start, const Position& end);
+		bool  rook_path_clear(const Position& start, const Position& end) const;
 
 		// Checks if path is clear for Pawn movement
-		bool pawn_path_clear(const Position& start);
+		bool pawn_path_clear(const Position& start) const;
 
 		// Checks if path is clear for Bishop movement
-		bool bishop_path_clear(const Position& start, const Position& end);
+		bool bishop_path_clear(const Position& start, const Position& end) const;
 	    
 		//Checks if path is clear for Queen movement
-	    bool queen_path_clear(const Position& start, const Position& end);
+	    bool queen_path_clear(const Position& start, const Position& end) const;
 	    
 		//Checks if path is clear for Mystery movement
-	    bool mystery_path_clear(const Position& start, const Position& end);
+	    bool mystery_path_clear(const Position& start, const Position& end) const;
 	    
 		//Checks if a move exposes check
 	    bool exposes_check(const Position& start, const Position& end);
 	    
 		//checks if a move shape is legal and a path is clear
-	  bool legal_move_path(const Position& start, const Position& end);
+	  bool legal_move_path(const Position& start, const Position& end) const;
 	    
 		// Checks if position specified by user is valud
 		void check_positions(const Position& start, const Position& end);

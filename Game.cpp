@@ -45,7 +45,7 @@ namespace Chess
 	}
 
 	// checks if path is clear for Rook movement
-	bool Game::rook_path_clear(const Position& start, const Position& end) {
+	bool Game::rook_path_clear(const Position& start, const Position& end) const {
 		char row = start.second + 1;
 		char col = start.first + 1;
 
@@ -82,7 +82,7 @@ namespace Chess
 			return true;
 	}
 
-	bool Game::pawn_path_clear(const Position& start) {
+	bool Game::pawn_path_clear(const Position& start) const {
 		
 		char row = start.second + 1;
 		Position pos = std::make_pair(start.first, row);
@@ -93,7 +93,7 @@ namespace Chess
 		return true;
 	}
 
-	bool Game::bishop_path_clear(const Position& start, const Position& end) {
+	bool Game::bishop_path_clear(const Position& start, const Position& end) const {
 		
 		int num_spaces = abs(end.second - start.second);
 		int row = start.second;
@@ -140,7 +140,7 @@ namespace Chess
 		return true;
 	}
 
-	bool Game::queen_path_clear(const Position& start, const Position& end) {
+	bool Game::queen_path_clear(const Position& start, const Position& end) const {
           // check if diagonal path is clear
 	  int diag_col = abs(end.first - start.first);
 	  int diag_row = abs(end.second - start.second);
@@ -153,7 +153,7 @@ namespace Chess
 	  }
 	}
 
-        bool Game::mystery_path_clear(const Position& start, const Position& end) {
+        bool Game::mystery_path_clear(const Position& start, const Position& end) const {
           // check if diagonal path is clear                                                                                                   
           int diag_col = abs(end.first - start.first);
           int diag_row = abs(end.second - start.second);
@@ -172,8 +172,8 @@ namespace Chess
 	  }
         }
 
-        bool Game::legal_move_path(const Position& start, const Position& end) {
-                const Piece * piece = board(start);
+  bool Game::legal_move_path(const Position& start, const Position& end) const {
+    Piece * piece = board.get_occ().at(start);
                 char piece_type = piece->to_ascii();
 		bool path_clear = true;
 
@@ -335,7 +335,6 @@ namespace Chess
   	}
 
 	bool Game::in_check(const bool& white) const {
-
 		// variable to store map
 		std::map<Position, Piece*> board_occ = board.get_occ();
 	  	Position king_pos;
@@ -355,7 +354,8 @@ namespace Chess
 			// determines if piece is the opposite color
 	    	if (it->second->is_white() != white) {
 				// calls legal_move_path of appropriate piece
-	      		possible_check = legal_move_path(inner_it->first, king_pos);
+		  Position start_pos = inner_it->first;
+		  possible_check = legal_move_path(start_pos, king_pos);
 		}
 		}
 	}
@@ -412,11 +412,12 @@ namespace Chess
 
 		// variable to store map
 		std::map<Position, Piece*> board_occ = game.board.get_occ();
-
+		/*
 		// attempts to open file
 		if (!is.is_open()) {
 			throw Exception("Cannot load the game!");
 		}
+                */
 
 		char piece_symbol;
 		char first_pos = 'A';

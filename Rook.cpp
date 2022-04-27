@@ -8,7 +8,7 @@ namespace Chess
 
     // movement along vertical line
     if (start.first == end.first) {
-      return true
+      return true;
     }
 
     // movement along horizontal line
@@ -19,21 +19,4 @@ namespace Chess
     return false;
   }
 
-  char to_ascii() const {
-    if(is_white()) {
-      return 'R';
-    }
-    else {
-      return 'r';
-    }
-  }
-
-  std::string to_unicode() const {
-    if(is_white()) {
-      return "U+2656";
-    }
-    else {
-      return "U+265C";
-    }
-  }
 }

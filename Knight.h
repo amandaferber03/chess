@@ -19,7 +19,7 @@ namespace Chess
 		// DO NOT MODIFY THIS FUNCTION!!!! //
 		/////////////////////////////////////
 		std::string to_unicode() const override { return is_white() ? "\u2658" : "\u265E"; }
-
+                int point_value() const override { return 3; }
 	private:
 		/////////////////////////////////////
 		// DO NOT MODIFY THIS FUNCTION!!!! //

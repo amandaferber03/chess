@@ -2,7 +2,7 @@
 
 namespace Chess
 {
-  bool Pawn::legal_move_shape(const Position& start, const Position& end) const {
+  bool Pawn::legal_move_shape(const Position& start, const Position& end) const{
 
     bool white_turn_first = is_white() && start.second == 2;
     bool black_turn_first = !(is_white()) && start.second == 7;
@@ -34,7 +34,7 @@ namespace Chess
     return false;
   }
 
-  bool legal_capture_shape(const Position& start, const Position& end) const {
+  bool Pawn::legal_capture_shape(const Position& start, const Position& end) const {
 		
     // white piece
     if (is_white()) {
@@ -50,24 +50,6 @@ namespace Chess
     }
 
     return false;
-  }
-
-  char to_ascii() const {
-    if(is_white()) {
-      return 'P';
-    }
-    else {
-      return 'p';
-    }
-  }
-
-  std::string to_unicode() const {
-    if(is_white()) {
-      return "U+2659";
-    }
-    else {
-      return "U+265F";
-    }
   }
    
 }

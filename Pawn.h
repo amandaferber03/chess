@@ -22,6 +22,8 @@ namespace Chess
 		/////////////////////////////////////
 		std::string to_unicode() const override { return is_white() ? "\u2659" : "\u265F"; }
 
+	  int point_value() const override { return 1; }
+
 	private:
 		/////////////////////////////////////
 		// DO NOT MODIFY THIS FUNCTION!!!! //
