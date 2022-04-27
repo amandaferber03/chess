@@ -178,7 +178,7 @@ namespace Chess
 		bool path_clear = true;
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
-		if (piece.legal_move_shape() || piece.legal_capture_shape()) {
+		if (piece->legal_move_shape(start, end) || piece->legal_capture_shape(start, end)) {
 			switch (piece_type) {
 				case 'R':
 				case 'r': 
@@ -243,7 +243,7 @@ namespace Chess
 		  throw Exception("illegal move shape");
 		}
 
-		const Piece * piece = board(start);
+		Piece * piece = board.get_occ().at(start);
 
 		// checks if turn doesn't correspond with right piece color
 		if (piece->is_white() != turn_white()) {
@@ -265,19 +265,19 @@ namespace Chess
 			throw std::logic_error("path is not clear"); 
 		}
    
-		bool exposes_check = exposes_check(start, end);
+		bool possible_check = exposes_check(start, end);
 
 		// checks if movement exposes check
-		if(!exposes_check) {// updates pair in map representing end position with
+		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
-		  board.get_occ()[end] = piece;
-		  board.get_occ().erase(start);
+		  std::map<Position, Piece *> board_occ = board.get_occ();
+		  board_occ[end] = piece;
+		  board_occ.erase(start);
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
 
 		  //should we use the add_piece() function
 		  is_white_turn = !is_white_turn;
-		  return true;
 		}
 		else {
 		  throw std::logic_error("move exposes check");//CHANGED THIS
@@ -286,11 +286,11 @@ namespace Chess
 		
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this; 
-		game_replica.board.get_occ().at(end) = board(start); // piece will be at ending position
+		game_replica.board.get_occ().at(end) = board.get_occ().at(start); // piece will be at ending position
 		game_replica.board.get_occ().erase(start); // piece deleted from starting position
 
 	  	// checks if move causes check to be exposed
-	  	if(game_replica.in_check()) {
+	  	if(game_replica.in_check(is_white_turn)) {
 	    	return true;
 		}
 	  	else {
@@ -303,7 +303,7 @@ namespace Chess
         std::map<Position, Piece*> board_occ = board.get_occ();
 		// variable that indicates if player can make legal move to get out of check
 	    bool legal_move = false;
-        for (std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+        for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
             if (it->second.is_white() == white) {
                	char first_pos = 'A';
                	char second_pos = '0';
@@ -342,7 +342,7 @@ namespace Chess
 	  	bool possible_check = false; 
 
 		// iterates through each position in the board and determines position of King
-        for (std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+        for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
 	    	if (it->second.is_white() == white) {
 	      		char piece_type = toupper(it->second.to_ascii());
 			}
@@ -364,7 +364,7 @@ namespace Chess
 
 
 	bool Game::in_mate(const bool& white) const {
-        if (in_check()) {
+        if (in_check(is_white_turn)) {
 	    	return end_of_game(white);
 	  	}
 	  	else {
@@ -374,7 +374,7 @@ namespace Chess
 
 
 	bool Game::in_stalemate(const bool& white) const {
-    	if(!in_check()) {
+    	if(!in_check(is_white_turn)) {
 	    	return end_of_game(white);
 	  	}
 	  	else {
@@ -388,7 +388,7 @@ namespace Chess
       //traverse through the white pieces of the map to see which ones are still there
       int points = 0;
       std::map<Position, Piece*> board_occ = board.get_occ();
-      for(std::map<Position, Piece*>::iterator it = board_occ.start();
+      for(std::map<Position, Piece*>::iterator it = board_occ.begin();
 	  it != board_occ.end();
 	  ++it) {
 	if(it->second.is_white() == white) {//if the color of the piece matches whose turn it is
