@@ -1,6 +1,11 @@
 #include <cassert>
 #include "Game.h"
 #include <stdlib.h>//abs() for make_move function
+#include <string>
+#include <cctype> // toupper
+#include <iostream> // toupper
+
+using std::string;
 
 namespace Chess
 {

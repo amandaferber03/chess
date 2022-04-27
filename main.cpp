@@ -4,6 +4,8 @@
 #include <cassert>
 #include "Game.h"
 
+using std::string;
+
 void show_commands() {
 	std::cout << "List of commands:" << std::endl;
 	std::cout << "\t'?':            show this list of options" << std::endl;

@@ -7,6 +7,10 @@
 #include "Board.h"
 #include "CreatePiece.h"
 #include "Exceptions.h"
+#include <string>
+
+using std::string;
+using std::string::at;
 
 namespace Chess
 {
@@ -16,23 +20,50 @@ namespace Chess
   Board::Board(){}
 
   const Piece* Board::operator()(const Position& position) const {
-    /////////////////////////
-    // [REPLACE THIS STUB] //
-    /////////////////////////
-    return NULL;
+    if (occ[position] == nullptr) {
+      return NULL;
+    }
+    return occ[position];
   }
   
   void Board::add_piece(const Position& position, const char& piece_designator) {
-    /////////////////////////
-    // [REPLACE THIS STUB] //
-    /////////////////////////
-    
-    // error handling
-    // invalid piece designator
-    // invalid specified end position
-    // position is taken up by another piece
 
-    occ[position] = create_piece(piece_designator); // creates an object of a class representing a specific piece
+    string valid_piece_designators = "KkQqBbNnRrPpMm";
+    bool valid_designator = false;
+    bool valid_position = false;
+    bool piece_exists = false;
+
+    // updates valid_designator if applicable
+    for (int i = 0; i < valid_piece_designators.length(); i++) {
+      if (piece_designator.compare(valid_piece_designators.at(i)) == 0) {
+        valid_designator = true;
+        break;
+      }
+    }
+
+    // updates valid_position if applicable
+    if ((position.first >= 'A' && position.first <= 'H') && (position.second >= '1' && position.second <= '8')) {
+      valid_position = true;
+    }
+
+    // updates no_piece_exists if applicable
+    if ((*this)(position) != nullptr) {
+      piece_exists = true;
+    }
+
+    // throws exceptions if necessary
+    if (!valid_designator) {
+      throw Exception("invalid designator");
+    }
+    if (!valid_position) {
+      throw Exception("invalid position");
+    }
+    if (piece_exists) {
+      throw Exception("position is occupied");
+    }
+
+    // updates map if an exception is not thrown
+    occ[position] = create_piece(piece_designator);
   }
 
   void Board::display() const {
