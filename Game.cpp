@@ -231,15 +231,15 @@ namespace Chess
 
 		// checks if the user is trying to capture the opponent's piece if the path is clear
 		if (path_clear) {
-		   if (board(end) != nullptr) {
-		      Piece * captured_piece = board(end);
-		      if (captured_piece.is_white() == turn_white()) {
-			throw std::logic_error("cannot capture own piece");
-		      }
-		   }
+		   	if (board(end) != nullptr) {
+		    	Piece * captured_piece = board(end);
+		      	if (captured_piece.is_white() == turn_white()) {
+					throw std::logic_error("cannot capture own piece");
+		    	}
+		   	}
 		}
 		else {
-		  throw std::logic_error("path is not clear"); 
+			throw std::logic_error("path is not clear"); 
 		}
    
 		bool exposes_check = exposes_check(start, end);
@@ -261,104 +261,102 @@ namespace Chess
 		}
 	}
 		
-        bool Game::exposes_check(const Position& start, const Position& end) {
-	  Game game_replica = *this; 
-	  game_replica.board.get_occ()[end] = board(start);
-	  game_replica.board.get_occ().erase(start);
-	  if(game_replica.in_check()) {
-	      return true;
-	  }
-	  else {
-	      return false;
-	  }
-        }
-        bool Game::end_of_game(const bool& white) const {
-          std::map<Position, Piece*> board_occ = board.get_occ();
-	  bool legal_move = false;
-          for(std::map<Position, Piece*>::iterator outer_it = board_occ.start();
-             outer_it != board_occ.end();
-             ++outer_it) {
-            if(outer_it->second.is_white() == white) {
-              char first_pos = 'A';
-              char second_pos = '1';
-              int counter = 0;
-              for(int i = 0; i < 64; i++) {
-                second_pos += counter;
-                if(counter < 7) {
-                  counter++;
-                }
-                else {
-                  counter = 0;
-		  second_pos = '1';
-                  first_pos++;
-                }
-                Position end_pos = std::make_pair(first_pos, second_pos);
-                Game game_replica = *this;
-                try {
-                  game_replica.make_move(outer_it->first, end_pos);
-                }
-                catch(const std::exception& e) {
-                  continue;
-                }
-                legal_move = true;
-              }
+    bool Game::exposes_check(const Position& start, const Position& end) {
+		Game game_replica = *this; 
+		game_replica.board.get_occ()[end] = board(start); // piece will be at ending position
+		game_replica.board.get_occ().erase(start); // piece deleted from starting position
+
+	  	// checks if move causes check to be exposed
+	  	if(game_replica.in_check()) {
+	    	return true;
+		}
+	  	else {
+	      	return false;
+	  	}
+    }
+
+    bool Game::end_of_game(const bool& white) const {
+		// variable that represents board
+        std::map<Position, Piece*> board_occ = board.get_occ();
+		// variable that indicates if player can make legal move to get out of check
+	    bool legal_move = false;
+        for (std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+            if (it->second.is_white() == white) {
+               	char first_pos = 'A';
+               	char second_pos = '0';
+               	int counter = 0;
+               	for (int i = 0; i < 64; i++) {
+					second_pos++; // 1, 2... 6, 7, 8
+                	if (counter < 7) {
+                  		counter++; // 1, 2... 6, 7
+                	}
+                	else {
+                  		counter = 0;
+		  				second_pos = '1';
+                  		first_pos++; // B
+                	}
+                	Position end_pos = std::make_pair(first_pos, second_pos);
+                	Game game_replica = *this;
+                	try {
+                  		game_replica.make_move(it->first, end_pos);
+                	}
+					// move isn't legal if exception is caught
+                	catch (const std::exception& e) {
+                  		continue;
+                	}
+                	legal_move = true;
+              	}
             }
-          }
-          return !legal_move;
-  }
+        }
+        return !legal_move;
+  	}
+
 	bool Game::in_check(const bool& white) const {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
 
-	  std::map<Position, Piece*> board_occ = board.get_occ();
-	  Position king_pos;
-	  bool possible_check = false; 
-          for(std::map<Position, Piece*>::iterator it = board_occ.start();
-             it != board_occ.end();
-             ++it) {
-	    if(it->second.is_white() == white) {
-	      char piece_type = toupper(it->second.to_ascii());
-	      if(piece_type == 'K') {
-		king_pos = it->first;
-	      }
-	    }
-	  }
+		// variable to store map
+		std::map<Position, Piece*> board_occ = board.get_occ();
+	  	Position king_pos;
+	  	bool possible_check = false; 
 
-	  for(std::map<Position, Piece*>::iterator it = board_occ.start();
-             it != board_occ.end();
-             ++it) {
-	    if(it->second.is_white() != white) {
-	      possible_check = legal_move_path(it->first, king_pos);
+		// iterates through each position in the board and determines position of King
+        for (std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+	    	if (it->second.is_white() == white) {
+	      		char piece_type = toupper(it->second.to_ascii());
+			}
+	      	if (piece_type == 'K') {
+				king_pos = it->first;
+	      	}
 	    }
-	  }
-	  return possible_check;
+
+		// determines if piece could capture king of opposing player
+	  	for(std::map<Position, Piece*>::iterator it = board_occ.start(); it != board_occ.end(); ++it) {
+			// determines if piece is the opposite color
+	    	if (it->second.is_white() != white) {
+				// calls legal_move_path of appropriate piece
+	      		possible_check = legal_move_path(it->first, king_pos);
+	    	}
+	  	}
+	  	return possible_check;
 	}
 
 
 	bool Game::in_mate(const bool& white) const {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
-          if(in_check()) {
-	    return end_of_game(white);
-	  }
-	  else {
-	    return false;
-	  }
+        if (in_check()) {
+	    	return end_of_game(white);
+	  	}
+	  	else {
+	    	return false;
+	  	}
 	}
 
 
 	bool Game::in_stalemate(const bool& white) const {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
-          if(!in_check()) {
-	    return end_of_game(white);
-	  }
-	  else {
-	    return false;
-	  }
+    	if(!in_check()) {
+	    	return end_of_game(white);
+	  	}
+	  	else {
+	    	return false;
+	  	}
 	}
 
     // Return the total material point value of the designated player
@@ -387,10 +385,46 @@ namespace Chess
     }
 
 
-      std::istream& operator>> (std::istream& is, Game& game) {
-		/////////////////////////
-		// [REPLACE THIS STUB] //
-		/////////////////////////
+    std::istream& operator>> (std::istream& is, Game& game) {
+
+		// variable to store map
+		std::map<Position, Piece*> board_occ = board.get_occ();
+
+		// attempts to open file
+		if (!is.is_open()) {
+			throw Exception("Cannot load the game!");
+		}
+
+		char piece_symbol;
+		char first_pos = 'A';
+		char second_pos = '8';
+		int counter = 0;
+
+		// captures each character in the file
+		while (is >> piece_symbol) {
+			if (piece_symbol == 'w') {
+				is_white_turn = true;
+			}
+			else if (piece_symbol == 'b') {
+				is_white_turn = false;
+			}
+			else if (piece_symbol != '-') {
+				Position pos = std::make_pair(first_pos, second_pos);
+				add_piece(pos, piece_symbol); // TODO: implement function
+			}
+
+			// updates position values
+			first_pos++; // B, C, D, E, F, G, H
+			if (counter < 7) {
+				counter++; // 1, 2, 3, 4, 5, 6, 7
+			}
+			else {
+				counter = 0;
+				first_pos = 'A';
+				second_pos--;
+			}
+		}
+
 		return is;
 	}
 

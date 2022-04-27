@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 			break;
 
 		// If the board is in a check state, notify the players
-     		} else if (game.in_check(game.turn_white())) {
+     	} else if (game.in_check(game.turn_white())) {
 			std::cout << "You are in check!" << std::endl;
 
 		// If the board is in a stalemate state, notify the players
