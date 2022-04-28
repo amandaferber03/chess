@@ -106,20 +106,19 @@ namespace Chess
         }
       }
 
-      /*
+    
       // adds piece to board if piece exists at position
       Position pos = std::make_pair(first_pos, second_pos);
-      if (occ[pos] != nullptr) {
+      if (occ.at(pos) != nullptr) {
         // TODO: Do we need to change the color of piece
-        Piece * piece = occ[pos];
-        cout << piece.to_unicode.c_str();
+        Piece * piece = occ.at(pos);
+        cout << piece->to_unicode().c_str();
       }
       else {
 
         cout << " ";
       }
-      */
-
+ 
       // adds row numbers to right-hand side of board
       if (i % 7 == 0 && i != 0) {
         cout << row_num << " ";
