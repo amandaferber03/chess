@@ -21,8 +21,8 @@ namespace Chess
   Board::Board(){}
 
   const Piece* Board::operator()(const Position& position) const {
-    
-    if (occ.at(position) == nullptr) {
+    auto it = occ.find(position);
+    if (it == occ.end()) {
       return NULL;
     }
 
@@ -38,6 +38,7 @@ namespace Chess
 
     // updates valid_designator if applicable
     for (size_t i = 0; i < valid_piece_designators.length(); i++) {
+      std::cout	<< "1" << std::endl;
       if (piece_designator == valid_piece_designators.at(i)) {
         valid_designator = true;
         break;
@@ -46,11 +47,18 @@ namespace Chess
 
     // updates valid_position if applicable
     if ((position.first >= 'A' && position.first <= 'H') && (position.second >= '1' && position.second <= '8')) {
+      std::cout	<< "2" << std::endl;
       valid_position = true;
     }
+    else {
+      std::cout << position.first << position.second << std::endl;
+    }
+
+    std::cout << "hello!" << std::endl;
 
     // updates no_piece_exists if applicable
-    if ((*this)(position) != nullptr) {
+    if ((*this)(position) != NULL) {
+      std::cout << "3" << std::endl;
       piece_exists = true;
     }
 
