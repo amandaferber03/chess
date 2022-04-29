@@ -223,6 +223,7 @@ namespace Chess
 
 		bool valid_end = (end.first >= 'A' && end.first <= 'H') && (end.second >= '1' && end.second <= '8');
 		if (!valid_end) {
+			std::cout << end.first << " " << end.second << std::endl;
 			throw Exception("end position is not on board");	
 		}
 
@@ -270,6 +271,7 @@ namespace Chess
 		// checks if movement exposes check
 		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
+			std::cout << "wassup" << std::endl;
 		  std::map<Position, Piece *> board_occ = board.get_occ();
 		  board_occ[end] = piece;
 		  board_occ.erase(start);
@@ -278,6 +280,7 @@ namespace Chess
 
 		  //should we use the add_piece() function
 		  is_white_turn = !is_white_turn;
+		  std::cout << "hola" << std::endl;
 		}
 		else {
 		  throw std::logic_error("move exposes check");//CHANGED THIS
@@ -303,32 +306,43 @@ namespace Chess
         std::map<Position, Piece*> board_occ = board.get_occ();
 		// variable that indicates if player can make legal move to get out of check
 	    bool legal_move = false;
+
+		
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
             if (it->second->is_white() == white) {
+
                	char first_pos = 'A';
-               	char second_pos = '0';
-               	int counter = 0;
+               	char second_pos = '8';
+				int row_num = 8;
+               	int counter = 7;
                	for (int i = 0; i < 64; i++) {
-					second_pos++; // 1, 2... 6, 7, 8
-                	if (counter < 7) {
-                  		counter++; // 1, 2... 6, 7
-                	}
-                	else {
-                  		counter = 0;
-		  				second_pos = '1';
-                  		first_pos++; // B
-                	}
-                	Position end_pos = std::make_pair(first_pos, second_pos);
+
+					Position end_pos = std::make_pair(first_pos, second_pos);
+
+					std::cout << "start " << it->first.first << " " << it->first.second << std::endl;
+					std::cout << "end " << end_pos.first << " " << end_pos.second << std::endl;
+
+					if (i == counter && i > 0) {
+						row_num--;
+						second_pos--;
+						first_pos = 'A';
+						counter+=8;
+					}
+					else {
+						first_pos++;
+					}
+
                 	Game game_replica = *this;
+
                 	try {
                   		game_replica.make_move(it->first, end_pos);
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {
-			  std::cout << e.what() << std::endl;
+			  			std::cout << e.what() << std::endl;
                   		continue;
                 	}
-                	return true;
+                	return false;
               	}
             }
         }
@@ -344,27 +358,29 @@ namespace Chess
 		// iterates through each position in the board and determines position of King
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
 	    	if (it->second->is_white() == white) {
-		  char piece_type = toupper(it->second->to_ascii());
-	      	  if (piece_type == 'K') {
-		    king_pos = it->first;
+		  		char piece_type = toupper(it->second->to_ascii());
+	      	  	if (piece_type == 'K') {
+		    		king_pos = it->first;
 	      	   }
 	        }
+		}
 
 		// determines if piece could capture king of opposing player
 	  	for(std::map<Position, Piece*>::iterator inner_it = board_occ.begin(); inner_it != board_occ.end(); ++inner_it) {
 			// determines if piece is the opposite color
-	    	if (it->second->is_white() != white) {
+	    	if (inner_it->second->is_white() != white) {
 				// calls legal_move_path of appropriate piece
-		  Position start_pos = inner_it->first;
-		  try {
-		    possible_check = legal_move_path(start_pos, king_pos);
-		  }
-		  catch(const std::exception& e) {
-		    continue;
-		  }
+		  		Position start_pos = inner_it->first;
+		  		try {
+		    		possible_check = legal_move_path(start_pos, king_pos);
+					std::cout << "yo" << std::endl;
+		  		}
+		  		catch(const std::exception& e) {
+					std::cout << "hey" << std::endl;
+		    		continue;
+		  		}
+			}
 		}
-		}
-	}
 	return possible_check;
 	}
 

@@ -126,13 +126,6 @@ namespace Chess
       else {
 	cout << " ";
       }
- 
-      // adds row numbers to right-hand side of board
-      //if (i % 7 == 0 && i != 0) {
-      //cout << row_num << endl;
-      //row_num--;
-      //}
-
 
       // updates position
       if (i == counter && i  > 0) {
