@@ -75,6 +75,8 @@ namespace Chess
         // Return the total material point value of the designated player
         int point_value(const bool& white) const;
 
+		void erase_board();
+
 	private:
 		// The board
 		Board board;

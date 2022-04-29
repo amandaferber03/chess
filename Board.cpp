@@ -38,9 +38,7 @@ namespace Chess
 	  occ.clear();
   }
 
-  Board::~Board() {
-    erase_if_existing();
-  }
+  Board::~Board() { }
   
   void Board::add_piece(const Position& position, const char& piece_designator) {
 

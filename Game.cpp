@@ -486,6 +486,10 @@ namespace Chess
 		return is;
 	}
 
+	void Game::erase_board() {
+    	board.erase_if_existing();
+	}
+
     /////////////////////////////////////
     // DO NOT MODIFY THIS FUNCTION!!!! //
     /////////////////////////////////////

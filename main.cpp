@@ -137,6 +137,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+	game.erase_board();
 
 	// Write out the state of the game to a file
 	if (argc > 1) {
