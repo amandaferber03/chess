@@ -22,6 +22,9 @@ namespace Chess
 		// {'A','B','C','D','E','F','G','H'} (all caps)
 		// and the second is the row, with values in {'1','2','3','4','5','6','7','8'}
 
+		/* This is a helper function that empties out the board */
+		void erase_if_existing();
+
 	public:
 		// Default constructor
 		Board();
