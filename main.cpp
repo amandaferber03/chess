@@ -43,7 +43,6 @@ int main(int argc, char* argv[]) {
 
         // Indicate current player's material point value
         std::cout << "Material point value: " << game.point_value(game.turn_white()) << std::endl;
-
 		// If the board is in a check-mate state, end the game
 		if (game.in_mate(game.turn_white())) {
 			std::cout << "Checkmate! Game over." << std::endl;

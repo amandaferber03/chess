@@ -212,7 +212,7 @@ namespace Chess
 			throw Exception("illegal move shape");
 		}
 		return path_clear;
-    }
+}
 
        void Game::check_positions(const Position& start, const Position& end) {
 	
@@ -286,7 +286,7 @@ namespace Chess
 		
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this; 
-		game_replica.board.get_occ().at(end) = board.get_occ().at(start); // piece will be at ending position
+		game_replica.board.get_occ()[end] = board.get_occ().at(start); //CHANGED FROM .AT TO []
 		game_replica.board.get_occ().erase(start); // piece deleted from starting position
 
 	  	// checks if move causes check to be exposed
@@ -325,9 +325,10 @@ namespace Chess
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {
+			  std::cout << e.what() << std::endl;
                   		continue;
                 	}
-                	legal_move = true;
+                	return true;
               	}
             }
         }
@@ -355,7 +356,12 @@ namespace Chess
 	    	if (it->second->is_white() != white) {
 				// calls legal_move_path of appropriate piece
 		  Position start_pos = inner_it->first;
-		  possible_check = legal_move_path(start_pos, king_pos);
+		  try {
+		    possible_check = legal_move_path(start_pos, king_pos);
+		  }
+		  catch(const std::exception& e) {
+		    continue;
+		  }
 		}
 		}
 	}
@@ -374,7 +380,7 @@ namespace Chess
 
 
 	bool Game::in_stalemate(const bool& white) const {
-    	if(!in_check(is_white_turn)) {
+	  if(!(in_check(is_white_turn))) {
 	    	return end_of_game(white);
 	  	}
 	  	else {
@@ -395,11 +401,17 @@ namespace Chess
 	  char piece_type = toupper(it->second->to_ascii());//TODO: do we need to #include something special for this
 	  switch (piece_type) {
 	  case 'P': points += 1;
+	    break;
 	  case 'N': points += 3;
+	    break;
 	  case 'B': points += 3;
+	    break;
 	  case 'R': points += 5;
+	    break;
 	  case 'Q': points += 9;
+	    break;
 	  case 'M': points += it->second->point_value();
+	    break;
 	  default: break;
 	  }
 	}

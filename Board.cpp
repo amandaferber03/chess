@@ -38,7 +38,6 @@ namespace Chess
 
     // updates valid_designator if applicable
     for (size_t i = 0; i < valid_piece_designators.length(); i++) {
-      std::cout	<< "1" << std::endl;
       if (piece_designator == valid_piece_designators.at(i)) {
         valid_designator = true;
         break;
@@ -47,7 +46,6 @@ namespace Chess
 
     // updates valid_position if applicable
     if ((position.first >= 'A' && position.first <= 'H') && (position.second >= '1' && position.second <= '8')) {
-      std::cout	<< "2" << std::endl;
       valid_position = true;
     }
     else {
@@ -58,7 +56,6 @@ namespace Chess
 
     // updates no_piece_exists if applicable
     if ((*this)(position) != NULL) {
-      std::cout << "3" << std::endl;
       piece_exists = true;
     }
 
@@ -78,27 +75,30 @@ namespace Chess
 
   }
 
+
+
   // colors the tiles 
   void Board::display() const {
 
     char first_pos = 'A';
     char second_pos = '8';
     int row_num = 8;
-
+    int counter = 7;
+    
     // prints beginning of display
-    cout << " ABCDEFGH " << endl;
-    cout << " -------- " << endl;
+    cout << "  ABCDEFGH " << endl;
+    cout << "  -------- " << endl;
 
     for (int i = 0; i < 64; i++) {
       // adds row numbers to left-hand side of board
       if (i % 8 == 0 && row_num > 0) {
-        cout << row_num << " ";
+        cout << row_num << "|";
       }
 
       // sets colors of tiles for even rows
       if (row_num % 2 == 0) {
         if (i % 2 == 0) {
-          Terminal::color_bg(Terminal::MAGENTA);
+          Terminal::color_bg(Terminal::MAGENTA);//CHANGE THIS BACK TO MAGENTA
         }
         else {
           Terminal::color_bg(Terminal::BLACK);
@@ -117,32 +117,40 @@ namespace Chess
     
       // adds piece to board if piece exists at position
       Position pos = std::make_pair(first_pos, second_pos);
-      if (occ.at(pos) != nullptr) {
+      auto it = occ.find(pos);     
+      if (it != occ.end()) {
         // TODO: Do we need to change the color of piece
         Piece * piece = occ.at(pos);
         cout << piece->to_unicode().c_str();
       }
       else {
-
-        cout << " ";
+	cout << " ";
       }
  
       // adds row numbers to right-hand side of board
-      if (i % 7 == 0 && i != 0) {
-        cout << row_num << " ";
-        row_num--;
-      }
+      //if (i % 7 == 0 && i != 0) {
+      //cout << row_num << endl;
+      //row_num--;
+      //}
+
 
       // updates position
-      if (i % 7 == 0 && second_pos > 0) {
+      if (i == counter && i  > 0) {
+        Terminal::set_default();
+	cout << "|" << row_num << endl;
+	row_num--;
         second_pos--;
+	first_pos = 'A';
+	counter+=8;
       }
-      first_pos++;
+      else {
+        first_pos++;
+      }
     }
    
     // prints end of display
-    cout << " ABCDEFGH " << endl;
-    cout << " -------- " << endl;
+    cout << "  -------- " << endl;
+    cout << "  ABCDEFGH " << endl;
   }
 
   /*
