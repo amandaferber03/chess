@@ -28,6 +28,13 @@ namespace Chess
 
     return occ.at(position);
   }
+
+/* Helper function that empties out board */
+  void erase_if_existing() {
+	  for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
+		  (*it).erase(it->first);
+	  }
+  }
   
   void Board::add_piece(const Position& position, const char& piece_designator) {
 

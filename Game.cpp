@@ -442,7 +442,7 @@ namespace Chess
 
 
     std::istream& operator>> (std::istream& is, Game& game) {
-
+		board.erase_if_existing();
 		// variable to store map
 		std::map<Position, Piece*> board_occ = game.board.get_occ();
 		/*
