@@ -279,7 +279,7 @@ namespace Chess
 		// checks if the user is trying to capture the opponent's piece if the path is clear
 		if (path_clear) {
 		   	if (board(end) != nullptr) {
-		    	const Piece * captured_piece = board(end);
+		    	Piece * captured_piece = board.get_occ().at(end);
 		      	if (captured_piece->is_white() == turn_white()) {
 					throw std::logic_error("cannot capture own piece");
 		    	}
@@ -291,25 +291,21 @@ namespace Chess
 		std::cout << "8" << std::endl;
    
 		bool possible_check = exposes_check(start, end);
-                std::cout << "9" << std::endl;
 		// checks if movement exposes check
 		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
-                   std::cout << "10" << std::endl;
+
 		   board.change_pos(start, end, piece, ascii_char);
-			std::cout << "HI" << std::endl;
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
 
 		  //should we use the add_piece() function
 		  is_white_turn = !is_white_turn;
-		  std::cout << "HEY" << std::endl;
 
 		}
 		else {
 		  throw std::logic_error("move exposes check");//CHANGED THIS
 		}
-		std::cout << "11" << std::endl;
 	}
 		
     bool Game::exposes_check(const Position& start, const Position& end) {

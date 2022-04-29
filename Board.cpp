@@ -187,30 +187,23 @@ namespace Chess
   }
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
-    std::cout << "apple" << std::endl;
-    occ[end] = piece;
-    if(occ[end] == nullptr) {
-      std::cout << "NULL PTR" << std::endl;
+    if(occ[end] != nullptr) {
+      delete occ[end];
     }
-    std::cout << "banana" << std::endl;
-    occ.erase(start);
-    std::cout << "carrot" << std::endl;
+    occ[end] = piece;
+    
     // promotion of pawn to queen
     if (ascii_char == 'p' && end.second == '1') {
-      std::cout << "HEYO" << std::endl;
+      delete occ[start];
       occ.erase(end);
-      std::cout << "earrings" << std::endl;
       add_piece(end, 'q');
-      std::cout << "sweater" << std::endl;
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      std::cout << "HEYO" << std::endl;
+      delete occ[start];
       occ.erase(end);
-      std::cout << "earrings" << std::endl;
       add_piece(end, 'Q');
-      std::cout << "sweater" << std::endl;
     }
-    std::cout << "dracula" << std::endl;
+    occ.erase(start);
   }
 
   /////////////////////////////////////
