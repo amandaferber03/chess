@@ -273,7 +273,7 @@ namespace Chess
 		                    //new piece and deletes key representing piece at start position
 			std::cout << "wassup" << std::endl;
 		  std::map<Position, Piece *> board_occ = board.get_occ();
-		  board_occ[end] = piece;
+		  board.occ[end] = piece;
 		  board_occ.erase(start);
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
