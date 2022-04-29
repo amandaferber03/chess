@@ -183,18 +183,17 @@ namespace Chess
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     if(occ[end] != nullptr) {
-      delete occ[end];
+      // delete occ[end];
     }
     occ[end] = piece;
     
-    // promotion of pawn to queen
     if (ascii_char == 'p' && end.second == '1') {
-      delete occ[start];
+      // delete occ[start];
       occ.erase(end);
       add_piece(end, 'q');
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      delete occ[start];
+      //delete occ[start];
       occ.erase(end);
       add_piece(end, 'Q');
     }

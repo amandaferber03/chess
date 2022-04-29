@@ -46,10 +46,21 @@ namespace Chess
 
 	// checks if path is clear for Rook movement
 	bool Game::rook_path_clear(const Position& start, const Position& end) const {
-		char row = start.second + 1;
-		char col = start.first + 1;
-
-			// checks for pieces in horizontal path
+	  char row = '0';
+	  char col = '0';
+	  if(end.second - start.second > 0) {
+	    row = start.second + 1;
+	  }
+	  else {
+	    row = start.second - 1;
+	  }
+	  if(end.first - start.first > 0) {
+	    col = start.first + 1;
+	  }
+	  else {
+	    col = start.first - 1;
+	  }
+				// checks for pieces in horizontal path
 			// will not execute if path is vertical
 			for (int i = 0; i < abs(end.first - start.first) - 1; i++) {
 				Position pos = std::make_pair(col, start.second);
@@ -61,7 +72,7 @@ namespace Chess
 					col++;
 				}
 				else {
-					col--;
+				  col--;//
 				}
 			}
 			// checks for pieces in vertical path
@@ -276,6 +287,9 @@ namespace Chess
 		      	if (captured_piece->is_white() == turn_white()) {
 					throw std::logic_error("cannot capture own piece");
 		    	}
+			else {
+			  //delete captured_piece;
+			}
 			}
 		}
 		else {
