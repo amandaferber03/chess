@@ -30,9 +30,9 @@ namespace Chess
   }
 
 /* Helper function that empties out board */
-  void erase_if_existing() {
-	  for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
-		  (*it).erase(it->first);
+  void Board::erase_if_existing() {
+	  for (std::map<Position, Piece*>::iterator it = occ.begin(); it != occ.end(); ++it) {
+		  occ.erase(it->first);
 	  }
   }
   
