@@ -1,16 +1,20 @@
 #include "Pawn.h"
-
+#include <iostream>
+#include <string>
 namespace Chess
 {
   bool Pawn::legal_move_shape(const Position& start, const Position& end) const{
 
-    bool white_turn_first = is_white() && start.second == 2;
-    bool black_turn_first = !(is_white()) && start.second == 7;
+    bool white_turn_first = is_white() && start.second == '2';
+    bool black_turn_first = !is_white() && start.second == '7';
 
     if (start.first == end.first) {
+
       // pawn may move one or two spaces forward on first move
       if (white_turn_first) {
+	
 	      if (end.second == start.second + 1 || end.second == start.second + 2) {
+	
 	        return true;
 	      }
       }

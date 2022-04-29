@@ -52,7 +52,6 @@ namespace Chess
       std::cout << position.first << position.second << std::endl;
     }
 
-    std::cout << "hello!" << std::endl;
 
     // updates no_piece_exists if applicable
     if ((*this)(position) != NULL) {
@@ -248,6 +247,11 @@ namespace Chess
       }
     }
     return (white_king_count == 1) && (black_king_count == 1);
+  }
+
+  void Board::change_pos(const Position& start, const Position& end, Piece * piece) {
+    occ[end] = piece;
+    occ.erase(start);
   }
 
   /////////////////////////////////////

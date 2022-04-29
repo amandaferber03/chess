@@ -83,8 +83,14 @@ namespace Chess
 	}
 
 	bool Game::pawn_path_clear(const Position& start) const {
-		
-		char row = start.second + 1;
+          	char row = 0;
+
+		if (is_white_turn) {
+			row = start.second + 1;
+		}
+		else {
+			row = start.second - 1;
+		}
 		Position pos = std::make_pair(start.first, row);
 
 		if (board(pos) != nullptr) {
@@ -193,11 +199,18 @@ namespace Chess
 				  	path_clear = queen_path_clear(start, end);
 		    		break;
 				case 'P':
-				case 'p': 
-					if (end.first == start.first + 2) {
+				case 'p':
+				  if (is_white_turn) {
+					if (end.second == start.second + 2) {
 						path_clear = pawn_path_clear(start);
 					}
-					break;
+			          }
+				  else {
+				    if (end.second == start.second - 2) { 
+				      path_clear = pawn_path_clear(start);
+				    }
+				  }		     
+				  break;
 			    case 'M':
 			    case 'm':
 				    path_clear = mystery_path_clear(start, end);
@@ -223,7 +236,6 @@ namespace Chess
 
 		bool valid_end = (end.first >= 'A' && end.first <= 'H') && (end.second >= '1' && end.second <= '8');
 		if (!valid_end) {
-			std::cout << end.first << " " << end.second << std::endl;
 			throw Exception("end position is not on board");	
 		}
 
@@ -271,16 +283,14 @@ namespace Chess
 		// checks if movement exposes check
 		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
-			std::cout << "wassup" << std::endl;
-		  std::map<Position, Piece *> board_occ = board.get_occ();
-		  board.occ[end] = piece;
-		  board_occ.erase(start);
+
+			board.change_pos(start, end, piece);
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
 
 		  //should we use the add_piece() function
 		  is_white_turn = !is_white_turn;
-		  std::cout << "hola" << std::endl;
+
 		}
 		else {
 		  throw std::logic_error("move exposes check");//CHANGED THIS
@@ -288,10 +298,11 @@ namespace Chess
 	}
 		
     bool Game::exposes_check(const Position& start, const Position& end) {
-		Game game_replica = *this; 
+		Game game_replica = *this;
+		Piece * piece = board.get_occ().at(start);
 		game_replica.board.get_occ()[end] = board.get_occ().at(start); //CHANGED FROM .AT TO []
 		game_replica.board.get_occ().erase(start); // piece deleted from starting position
-
+                game_replica.board.change_pos(start, end, piece);
 	  	// checks if move causes check to be exposed
 	  	if(game_replica.in_check(is_white_turn)) {
 	    	return true;
@@ -319,9 +330,6 @@ namespace Chess
 
 					Position end_pos = std::make_pair(first_pos, second_pos);
 
-					std::cout << "start " << it->first.first << " " << it->first.second << std::endl;
-					std::cout << "end " << end_pos.first << " " << end_pos.second << std::endl;
-
 					if (i == counter && i > 0) {
 						row_num--;
 						second_pos--;
@@ -339,7 +347,6 @@ namespace Chess
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {
-			  			std::cout << e.what() << std::endl;
                   		continue;
                 	}
                 	return false;
@@ -373,10 +380,8 @@ namespace Chess
 		  		Position start_pos = inner_it->first;
 		  		try {
 		    		possible_check = legal_move_path(start_pos, king_pos);
-					std::cout << "yo" << std::endl;
 		  		}
 		  		catch(const std::exception& e) {
-					std::cout << "hey" << std::endl;
 		    		continue;
 		  		}
 			}
