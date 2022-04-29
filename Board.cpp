@@ -32,8 +32,14 @@ namespace Chess
 /* Helper function that empties out board */
   void Board::erase_if_existing() {
 	  for (std::map<Position, Piece*>::iterator it = occ.begin(); it != occ.end(); ++it) {
-		  occ.erase(it->first);
+	    delete it->second;
+	    //occ.erase(it->first);
 	  }
+	  occ.clear();
+  }
+
+  Board::~Board() {
+    erase_if_existing();
   }
   
   void Board::add_piece(const Position& position, const char& piece_designator) {
@@ -104,19 +110,23 @@ namespace Chess
       // sets colors of tiles for even rows
       if (row_num % 2 == 0) {
         if (i % 2 == 0) {
-          Terminal::color_bg(Terminal::MAGENTA);//CHANGE THIS BACK TO MAGENTA
+          Terminal::color_bg(Terminal::MAGENTA);
+	  Terminal::color_fg(true, Terminal::BLACK);
         }
         else {
           Terminal::color_bg(Terminal::BLACK);
+	  Terminal::color_fg(true, Terminal::WHITE);
         }
       }
       // sets colors of tiles for odd rows
       else {
         if (i % 2 == 1) {
           Terminal::color_bg(Terminal::MAGENTA);
+	  Terminal::color_fg(true, Terminal::BLACK);
         }
         else {
           Terminal::color_bg(Terminal::BLACK);
+	  Terminal::color_fg(true, Terminal::WHITE);
         }
       }
 
@@ -127,7 +137,7 @@ namespace Chess
       if (it != occ.end()) {
         // TODO: Do we need to change the color of piece
         Piece * piece = occ.at(pos);
-        Terminal::color_fg(true, Terminal::BLACK);
+        //Terminal::color_fg(true, Terminal::BLACK);
         cout << piece->to_unicode().c_str();
       }
       else {
@@ -177,17 +187,27 @@ namespace Chess
   }
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece) {
+    std::cout << "apple" << std::endl;
     occ[end] = piece;
+    std::cout << "banana" << std::endl;
     occ.erase(start);
+    std::cout << "carrot" << std::endl;
     // promotion of pawn to queen
     if (piece->to_ascii() == 'p' && end.second == '1') {
+      std::cout << "HEYO" << std::endl;
       occ.erase(end);
+      std::cout << "earrings" << std::endl;
       add_piece(end, 'q');
+      std::cout << "sweater" << std::endl;
     }
     else if (piece->to_ascii() == 'P' && end.second == '8') {
+      std::cout << "HEYO" << std::endl;
       occ.erase(end);
+      std::cout << "earrings" << std::endl;
       add_piece(end, 'Q');
+      std::cout << "sweater" << std::endl;
     }
+    std::cout << "dracula" << std::endl;
   }
 
   /////////////////////////////////////

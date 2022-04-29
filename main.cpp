@@ -44,22 +44,24 @@ int main(int argc, char* argv[]) {
         // Indicate current player's material point value
         std::cout << "Material point value: " << game.point_value(game.turn_white()) << std::endl;
 		// If the board is in a check-mate state, end the game
+	/*
 		if (game.in_mate(game.turn_white())) {
 			std::cout << "Checkmate! Game over." << std::endl;
 			game_over = true;
 			break;
+			
 
 		// If the board is in a check state, notify the players
-     	} else if (game.in_check(game.turn_white())) {
+     	}  else if (game.in_check(game.turn_white())) {
 			std::cout << "You are in check!" << std::endl;
-
+    
 		// If the board is in a stalemate state, notify the players
-		} else if (game.in_stalemate(game.turn_white())) {
+		} else */if (game.in_stalemate(game.turn_white())) {
 			std::cout << "Stalemate! Game over." << std::endl;
 			game_over = true;
 			break;
-		}
-
+		} 
+		
 		// Get the next command
 		std::string choice;
         //		std::pair<char, char> start , end;
@@ -143,7 +145,6 @@ int main(int argc, char* argv[]) {
 		ofs << game;
 		ofs.close();
 	}
-
 	return 0;
 }
 

@@ -27,6 +27,7 @@ namespace Chess
 	public:
 		// Default constructor
 		Board();
+                ~Board();
 
 		// Returns a const pointer to the piece at a prescribed location if it exists,
 		// or nullptr if there is nothing there.
