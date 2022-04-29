@@ -259,6 +259,15 @@ namespace Chess
   void Board::change_pos(const Position& start, const Position& end, Piece * piece) {
     occ[end] = piece;
     occ.erase(start);
+    // promotion of pawn to queen
+    if (piece->to_ascii() == 'p' && end.second == '1') {
+      occ.erase(end);
+      add_piece(end, 'q');
+    }
+    else if (piece->to_ascii() == 'P' && end.second == '8') {
+      occ.erase(end);
+      add_piece(end, 'Q');
+    }
   }
 
   /////////////////////////////////////

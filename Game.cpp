@@ -359,8 +359,6 @@ namespace Chess
                 	catch (const std::exception& e) {
                   		continue;
                 	}
-			std::cout << "start: " << (it->first).first << (it->first).second << std::endl;
-			std::cout << "end: " << (end_pos).first << (end_pos).second << std::endl;
                 	return false;
               	}
             }
