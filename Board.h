@@ -49,7 +49,7 @@ namespace Chess
 		// Returns true if the board has the right number of kings on it
 		bool has_valid_kings() const;
 
-                void change_pos(const Position& start, const Position& end, Piece * piece);
+    void change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char);
 
         std::map<Position, Piece*> get_occ() const;
     

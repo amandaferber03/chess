@@ -186,21 +186,24 @@ namespace Chess
     return (white_king_count == 1) && (black_king_count == 1);
   }
 
-  void Board::change_pos(const Position& start, const Position& end, Piece * piece) {
+  void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     std::cout << "apple" << std::endl;
     occ[end] = piece;
+    if(occ[end] == nullptr) {
+      std::cout << "NULL PTR" << std::endl;
+    }
     std::cout << "banana" << std::endl;
     occ.erase(start);
     std::cout << "carrot" << std::endl;
     // promotion of pawn to queen
-    if (piece->to_ascii() == 'p' && end.second == '1') {
+    if (ascii_char == 'p' && end.second == '1') {
       std::cout << "HEYO" << std::endl;
       occ.erase(end);
       std::cout << "earrings" << std::endl;
       add_piece(end, 'q');
       std::cout << "sweater" << std::endl;
     }
-    else if (piece->to_ascii() == 'P' && end.second == '8') {
+    else if (ascii_char == 'P' && end.second == '8') {
       std::cout << "HEYO" << std::endl;
       occ.erase(end);
       std::cout << "earrings" << std::endl;

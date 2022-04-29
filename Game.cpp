@@ -267,6 +267,7 @@ namespace Chess
 		}
            std::cout << "4" << std::endl;
 		Piece * piece = board.get_occ().at(start);
+		char ascii_char = piece->to_ascii();
            std::cout << "5" << std::endl;
 		// checks if turn doesn't correspond with right piece color
 		if (piece->is_white() != turn_white()) {
@@ -295,7 +296,7 @@ namespace Chess
 		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
                    std::cout << "10" << std::endl;
-			board.change_pos(start, end, piece);
+		   board.change_pos(start, end, piece, ascii_char);
 			std::cout << "HI" << std::endl;
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
@@ -314,9 +315,10 @@ namespace Chess
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this;
 		Piece * piece = board.get_occ().at(start);
+		char ascii_char	= piece->to_ascii();
 		//game_replica.board.get_occ()[end] = board.get_occ().at(start); //CHANGED FROM .AT TO []
 		//game_replica.board.get_occ().erase(start); // piece deleted from starting position
-                game_replica.board.change_pos(start, end, piece);
+                game_replica.board.change_pos(start, end, piece, ascii_char);
 	  	// checks if move causes check to be exposed
 	  	if(game_replica.in_check(is_white_turn)) {
 	    	return true;
