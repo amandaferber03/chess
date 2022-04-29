@@ -61,9 +61,6 @@ namespace Chess
     if ((position.first >= 'A' && position.first <= 'H') && (position.second >= '1' && position.second <= '8')) {
       valid_position = true;
     }
-    else {
-      std::cout << position.first << position.second << std::endl;
-    }
 
 
     // updates no_piece_exists if applicable

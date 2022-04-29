@@ -252,30 +252,23 @@ namespace Chess
 	}
   
 	void Game::make_move(const Position& start, const Position& end) {
-	  std::cout << "1" << std::endl;
 		// throws an Exception if start and/or end position(s) are invalid
 		check_positions(start, end);
-          std::cout << "2" << std::endl;
 		// checks if piece exists at starting position 
 		if (board(start) == nullptr) {
 			throw Exception("no piece at start position");
 		}
-           std::cout << "3" << std::endl;
 		// checks if start and end positions are the same
 		if (start.first == end.first && start.second == end.second) {
 		  throw Exception("illegal move shape");
 		}
-           std::cout << "4" << std::endl;
 		Piece * piece = board.get_occ().at(start);
 		char ascii_char = piece->to_ascii();
-           std::cout << "5" << std::endl;
 		// checks if turn doesn't correspond with right piece color
 		if (piece->is_white() != turn_white()) {
 			throw Exception("piece color and turn do not match");
 		}
-		std::cout << "6" << std::endl;
 		bool path_clear = legal_move_path(start, end); 
-                std::cout << "7" << std::endl;
 		// checks if the user is trying to capture the opponent's piece if the path is clear
 		if (path_clear) {
 		   	if (board(end) != nullptr) {
@@ -288,7 +281,6 @@ namespace Chess
 		else {
 			throw std::logic_error("path is not clear"); 
 		}
-		std::cout << "8" << std::endl;
    
 		bool possible_check = exposes_check(start, end);
 		// checks if movement exposes check
@@ -326,23 +318,18 @@ namespace Chess
 
     bool Game::end_of_game(const bool& white) const {
 		// variable that represents board
-      std::cout << "a" << std::endl;
         std::map<Position, Piece*> board_occ = board.get_occ();
 		// variable that indicates if player can make legal move to get out of check
 	    bool legal_move = false;
-		std::cout	<< "b" << std::endl;
 	Game game_rep = *this;
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
             if (it->second->is_white() == white) {
-                std::cout	<< "c" << std::endl;
                	char first_pos = 'A';
                	char second_pos = '8';
 				int row_num = 8;
                	int counter = 7;
                	for (int i = 0; i < 64; i++) {
-		  std::cout << "hey!" << std::endl;
 					Position end_pos = std::make_pair(first_pos, second_pos);
-					std::cout	<< "d" << std::endl;
 
 					if (i == counter && i > 0) {
 						row_num--;
@@ -353,20 +340,14 @@ namespace Chess
 					else {
 						first_pos++;
 					}
-					std::cout	<< "e" << std::endl;
-      
-			std::cout	<< "f" << std::endl;
 
                 	try {
-			        std::cout       << "g" << std::endl;
                   		game_rep.make_move(it->first, end_pos);
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {
-			        std::cout       << "hello" << std::endl;
                   		continue;
                 	}
-			std::cout	<< "h" << std::endl;
                 	return false;
               	}
             }
@@ -419,11 +400,8 @@ namespace Chess
 
 
 	bool Game::in_stalemate(const bool& white) const {
-	  std::cout << "hello1" << std::endl;
 	  if(!(in_check(is_white_turn))) {
-	    std::cout << "hello2" << std::endl;
 	    	return end_of_game(white);
-		std::cout << "hello3" << std::endl;
 	  	}
 	  	else {
 	    	return false;
