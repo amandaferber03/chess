@@ -84,22 +84,29 @@ namespace Chess
 
 	bool Game::pawn_path_clear(const Position& start) const {
           	char row = 0;
+		char row2 = 0;
 
 		if (is_white_turn) {
 			row = start.second + 1;
+			row2 = start.second + 2;
 		}
 		else {
 			row = start.second - 1;
+			row2 = start.second - 2;
 		}
 		Position pos = std::make_pair(start.first, row);
+		Position pos2 = std::make_pair(start.first, row2);
 
 		if (board(pos) != nullptr) {
 			return false;
 		}
+		else if (board(pos2) != nullptr) {
+		  return false;
+		}
 		return true;
 	}
 
-	bool Game::bishop_path_clear(const Position& start, const Position& end) const {
+  bool Game::bishop_path_clear(const Position& start, const Position& end) const {//problem spot
 		
 		int num_spaces = abs(end.second - start.second);
 		int row = start.second;
@@ -112,14 +119,14 @@ namespace Chess
 			if (end.second - start.second > 0) {
 				// up-right movement
 				if (end.first - start.first > 0) {
-					Position pos = std::make_pair(col + num_spaces, row + num_spaces);
+					Position pos = std::make_pair(col + i, row + i);//made change here
 					if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
 				// up-left movement
 				else {
-					Position pos = std::make_pair(col - num_spaces, row + num_spaces);
+					Position pos = std::make_pair(col - i, row + i);//made change here
 					if (board_occ[pos] != nullptr) {
 						return false;
 					}
@@ -129,14 +136,14 @@ namespace Chess
 			else {
 				// down-right movement
 				if (end.first - start.first > 0) {
-				  Position pos = std::make_pair(col + num_spaces, row - num_spaces);
+				  Position pos = std::make_pair(col + i, row - i);//made change here
 				  if (board_occ[pos] != nullptr) {
 						return false;
 					}
 				}
 				// down-left movement
 				else {
-					Position pos = std::make_pair(col - num_spaces, row - num_spaces);
+					Position pos = std::make_pair(col - i, row - i);//made change here
 					if (board_occ[pos] != nullptr) {
 						return false;
 					}
@@ -184,7 +191,7 @@ namespace Chess
 		bool path_clear = true;
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
-		if (piece->legal_move_shape(start, end) || piece->legal_capture_shape(start, end)) {
+		if (piece->legal_move_shape(start, end)) {
 			switch (piece_type) {
 				case 'R':
 				case 'r': 
@@ -216,6 +223,9 @@ namespace Chess
 				    path_clear = mystery_path_clear(start, end);
 			    default: break;
 			}
+		}
+		else if (piece->legal_capture_shape(start, end) && board(end) != nullptr) {
+		  return path_clear;
 		}
 		// piece does not exist at end position
 		else if (board(end) != nullptr){
@@ -272,7 +282,7 @@ namespace Chess
 		      	if (captured_piece->is_white() == turn_white()) {
 					throw std::logic_error("cannot capture own piece");
 		    	}
-		   	}
+			}
 		}
 		else {
 			throw std::logic_error("path is not clear"); 
@@ -349,6 +359,8 @@ namespace Chess
                 	catch (const std::exception& e) {
                   		continue;
                 	}
+			std::cout << "start: " << (it->first).first << (it->first).second << std::endl;
+			std::cout << "end: " << (end_pos).first << (end_pos).second << std::endl;
                 	return false;
               	}
             }
