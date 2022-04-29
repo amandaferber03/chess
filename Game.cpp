@@ -455,6 +455,7 @@ namespace Chess
 		char piece_symbol;
 		char first_pos = 'A';
 		char second_pos = '8';
+                int i = 0;
 		int counter = 0;
 
 		// captures each character in the file
@@ -462,7 +463,7 @@ namespace Chess
 			if (piece_symbol == 'w') {
 				game.is_white_turn = true;
 			}
-			else if (piece_symbol == 'b') {
+			else if (piece_symbol == 'b' && i == 64) {
 				game.is_white_turn = false;
 			}
 			else if (piece_symbol != '-') {
@@ -480,6 +481,7 @@ namespace Chess
 				first_pos = 'A';
 				second_pos--;
 			}
+			i++;
 		}
 
 		return is;

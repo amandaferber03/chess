@@ -19,7 +19,7 @@ namespace Chess
        //BISHOP LIKE MOVEMENTS
        //Diagonal
        for (int i = 1; i < 7; i++) {
-           if ((end.first == start.first + i || end.first == start.first - i) && (end.second == start.second + i || end.second == start.second + i)) {
+           if ((end.first == start.first + i || end.first == start.first - i) && (end.second == start.second + i || end.second == start.second - i)) {
                return true;
            }
        }                                      
