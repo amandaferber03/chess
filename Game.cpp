@@ -279,14 +279,13 @@ namespace Chess
 		if (start.first == end.first && start.second == end.second) {
 		  throw Exception("illegal move shape");
 		}
+		Piece * piece = board.get_occ().at(start);
+		char ascii_char = piece->to_ascii();
+
 		// checks if turn doesn't correspond with right piece color
 		if (piece->is_white() != turn_white()) {
 			throw Exception("piece color and turn do not match");
 		}
-
-		Piece * piece = board.get_occ().at(start);
-		char ascii_char = piece->to_ascii();
-
 		bool check_exposed = exposes_check(start, end);
 		bool path_clear = legal_move_path(start, end, check_exposed); 
 
@@ -386,7 +385,7 @@ namespace Chess
 				// calls legal_move_path of appropriate piece
 		  		Position start_pos = inner_it->first;
 		  		try {
-		    		possible_check = legal_move_path(start_pos, king_pos);
+		    		possible_check = legal_move_path(start_pos, king_pos, false);
 		  		}
 		  		catch(const std::exception& e) {
 		    		continue;
