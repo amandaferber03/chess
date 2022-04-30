@@ -59,7 +59,7 @@ namespace Chess
 		void check_positions(const Position& start, const Position& end);
 
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
-		void make_move(const Position& start, const Position& end);
+	  void make_move(const Position& start, const Position& end, bool change_pos);
     
 	    bool end_of_game(const bool& white) const;
 	  

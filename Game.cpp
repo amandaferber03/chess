@@ -200,6 +200,7 @@ namespace Chess
     Piece * piece = board.get_occ().at(start);
                 char piece_type = piece->to_ascii();
 		bool path_clear = true;
+		
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
 		if (piece->legal_move_shape(start, end)) {
@@ -262,7 +263,7 @@ namespace Chess
 
 	}
   
-	void Game::make_move(const Position& start, const Position& end) {
+  void Game::make_move(const Position& start, const Position& end, bool change_pos) {
 		// throws an Exception if start and/or end position(s) are invalid
 		check_positions(start, end);
 		// checks if piece exists at starting position 
@@ -300,7 +301,9 @@ namespace Chess
 		// checks if movement exposes check
 		if(!possible_check) {// updates pair in map representing end position with
 		                    //new piece and deletes key representing piece at start position
-
+		  if(!change_pos) {
+		    return;
+		  }
 		   board.change_pos(start, end, piece, ascii_char);
 		  // TODO: ensure the piece is visually removed from start position
 		  //and added to end position using functions in Board.h
@@ -356,7 +359,7 @@ namespace Chess
 					}
 
                 	try {
-                  		game_rep.make_move(it->first, end_pos);
+			  game_rep.make_move(it->first, end_pos, false);
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {
