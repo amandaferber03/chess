@@ -268,7 +268,7 @@ namespace Chess
 
 	}
   
-	void Game::make_move(const Position& start, const Position& end) {
+	void Game::make_move(const Position& start, const Position& end, bool is_real_game) {
 		// throws an Exception if start and/or end position(s) are invalid
 		check_positions(start, end);
 		// checks if piece exists at starting position 
@@ -297,7 +297,7 @@ namespace Chess
 		}
 			
 		if (path_clear) {
-			board.change_pos(start, end, piece, ascii_char);
+			board.change_pos(start, end, ascii_char, true);
 			 is_white_turn = !is_white_turn;
 		}
 		else {
@@ -310,7 +310,7 @@ namespace Chess
 		char ascii_char	= piece->to_ascii();
 		//game_replica.board.get_occ()[end] = board.get_occ().at(start); //CHANGED FROM .AT TO []
 		//game_replica.board.get_occ().erase(start); // piece deleted from starting position
-                game_replica.board.change_pos(start, end, piece, ascii_char);
+                game_replica.board.change_pos(start, end, ascii_char);
 	  	// checks if move causes check to be exposed
 	  	if(game_replica.in_check(is_white_turn)) {
 	    	return true;
@@ -346,7 +346,7 @@ namespace Chess
 					}
 
                 	try {
-                  		game_rep.make_move(it->first, end_pos);
+                  		game_rep.make_move(it->first, end_pos, false);
                 	}
 					// move isn't legal if exception is caught
                 	catch (const std::exception& e) {

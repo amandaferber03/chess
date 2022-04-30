@@ -181,19 +181,24 @@ namespace Chess
     return (white_king_count == 1) && (black_king_count == 1);
   }
 
-  void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
-    if(occ[end] != nullptr) {
+  void Board::change_pos(const Position& start, const Position& end, char ascii_char, bool is_real_game) {
+    if(occ[end] != nullptr && is_real_game) {
       delete occ[end];
     }
     occ[end] = piece;
     
     if (ascii_char == 'p' && end.second == '1') {
+      if(is_real_game) {
+        delete occ[end];
+      }
       //delete piece;
       occ.erase(end);
       add_piece(end, 'q');
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      //delete piece;
+      if(is_real_game) {
+        delete occ[end];
+      }
       occ.erase(end);
       add_piece(end, 'Q');
     }
