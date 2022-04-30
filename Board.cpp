@@ -183,7 +183,7 @@ namespace Chess
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     if(occ[end] != nullptr) {
-      // delete occ[end];
+      delete occ[end];
     }
     occ[end] = piece;
     

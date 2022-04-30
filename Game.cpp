@@ -294,9 +294,6 @@ namespace Chess
 		    if (captured_piece->is_white() == turn_white()) {
 				throw std::logic_error("cannot capture own piece");
 		    }
-			else {
-				//delete captured_piece;
-			}
 		}
 			
 		if (path_clear) {
