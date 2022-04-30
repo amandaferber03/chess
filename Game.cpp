@@ -343,7 +343,7 @@ namespace Chess
         std::map<Position, Piece*> board_occ = board.get_occ();
 		// variable that indicates if player can make legal move to get out of check
 	    bool legal_move = false;
-	Game game_rep = *this;
+		Game game_rep = *this;
         for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
             if (it->second->is_white() == white) {
                	char first_pos = 'A';

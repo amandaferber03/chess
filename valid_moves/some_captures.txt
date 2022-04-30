@@ -1,0 +1,11 @@
+L board005.txt
+M F2F4
+M E4C2
+M E2B5
+M B8C6
+M D4D5
+M C2A2
+M D5C6
+M B7C6
+S output008.txt
+Q

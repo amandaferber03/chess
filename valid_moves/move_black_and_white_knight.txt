@@ -1,0 +1,6 @@
+M G1H3
+M B8C6
+M H3F4
+M C6B4
+S output1.txt
+q

@@ -1,0 +1,4 @@
+L board011.txt
+M D2D3
+S output020.txt
+Q

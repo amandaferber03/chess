@@ -1,0 +1,5 @@
+L board000.txt
+M F4E3
+S output2.txt
+q
+

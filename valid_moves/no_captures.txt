@@ -1,0 +1,6 @@
+M A2A4
+M E7E5
+M A1A3
+M D8E7
+S output007.txt
+q

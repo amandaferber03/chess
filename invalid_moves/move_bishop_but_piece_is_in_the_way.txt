@@ -1,0 +1,4 @@
+L board014.txt
+M F1C4
+S output3.txt
+q
