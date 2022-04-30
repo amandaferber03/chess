@@ -51,7 +51,7 @@ namespace Chess
 
     void change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char);
 
-    void change_map(const Position& start, const Position& end, Piece * piece, char ascii_char);
+    Piece* change_map(const Position& start, const Position& end, Piece * piece, char ascii_char);
 
         std::map<Position, Piece*> get_occ() const;
     

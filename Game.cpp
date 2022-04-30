@@ -321,14 +321,19 @@ namespace Chess
 		Game game_replica = *this;
 		Piece * piece = board.get_occ().at(start);
 		char ascii_char	= piece->to_ascii();
-		//game_replica.board.get_occ()[end] = board.get_occ().at(start); //CHANGED FROM .AT TO []
-		//game_replica.board.get_occ().erase(start); // piece deleted from starting position
-                game_replica.board.change_map(start, end, piece, ascii_char);
+        Piece * another_piece = game_replica.board.change_map(start, end, piece, ascii_char);
+		
 	  	// checks if move causes check to be exposed
 	  	if(game_replica.in_check(is_white_turn)) {
+			if ((ascii_char == 'p' && end.second == '1') || (ascii_char == 'P' && end.second == '8')) {
+				delete another_piece;
+			}
 	    	return true;
 		}
 	  	else {
+			if ((ascii_char == 'p' && end.second == '1') || (ascii_char == 'P' && end.second == '8')) {
+				delete another_piece;
+			}
 	      	return false;
 	  	}
     }

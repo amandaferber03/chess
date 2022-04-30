@@ -183,39 +183,48 @@ namespace Chess
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     Piece * captured_piece = occ[end];
-    if(captured_piece) {
+    if (captured_piece) {
       delete captured_piece;
+      occ[end] = piece;
     }
-    occ[end] = piece;
+    // occ[end] = piece;
     if (ascii_char == 'p' && end.second == '1') {
-      if(piece) {
-	delete piece;
+      if (piece) {
+	      delete occ[start];
       }
+      delete occ[end];
       occ.erase(end);
       add_piece(end, 'q');
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      if(piece)	{
-        delete piece;
+      if (piece)	{
+        delete occ[start];
       }
+      delete occ[end];
       occ.erase(end);
       add_piece(end, 'Q');
     }
     occ.erase(start);
   }
 
-  void Board::change_map(const Position& start, const Position& end, Piece * piece, char ascii_char) {
+  Piece* Board::change_map(const Position& start, const Position& end, Piece * piece, char ascii_char) {
+    // "move" pawn to end position
     occ[end] = piece;
     occ.erase(start);
+
+    // promote pawn to queen
     if (ascii_char == 'p' && end.second == '1') {
       occ.erase(end);
       add_piece(end, 'q');
+      return occ[end];
     }
     else if (ascii_char == 'P' && end.second == '8') {
       occ.erase(end);
       add_piece(end, 'Q');
+      return occ[end];
     }
     occ.erase(start);
+    return occ[end];
   }
 
   /////////////////////////////////////
