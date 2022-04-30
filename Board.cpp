@@ -182,18 +182,36 @@ namespace Chess
   }
 
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
-    if(occ[end] != nullptr) {
-      // delete occ[end];
+    Piece * captured_piece = occ[end];
+    if(captured_piece) {
+      delete captured_piece;
     }
     occ[end] = piece;
-    
     if (ascii_char == 'p' && end.second == '1') {
-      //delete piece;
+      if(piece) {
+	delete piece;
+      }
       occ.erase(end);
       add_piece(end, 'q');
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      //delete piece;
+      if(piece)	{
+        delete piece;
+      }
+      occ.erase(end);
+      add_piece(end, 'Q');
+    }
+    occ.erase(start);
+  }
+
+  void Board::change_map(const Position& start, const Position& end, Piece * piece, char ascii_char) {
+    occ[end] = piece;
+    occ.erase(start);
+    if (ascii_char == 'p' && end.second == '1') {
+      occ.erase(end);
+      add_piece(end, 'q');
+    }
+    else if (ascii_char == 'P' && end.second == '8') {
       occ.erase(end);
       add_piece(end, 'Q');
     }
