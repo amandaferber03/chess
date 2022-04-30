@@ -323,9 +323,11 @@ namespace Chess
                 game_replica.board.change_pos(start, end, piece, ascii_char);
 	  	// checks if move causes check to be exposed
 	  	if(game_replica.in_check(is_white_turn)) {
+			game_replica.erase_board();
 	    	return true;
 		}
 	  	else {
+		    game_replica.erase_board();
 	      	return false;
 	  	}
     }
@@ -362,10 +364,12 @@ namespace Chess
                 	catch (const std::exception& e) {
                   		continue;
                 	}
+					game_rep.erase_board();
                 	return false;
               	}
             }
         }
+		game_rep.erase_board();
         return !legal_move;
   	}
 
