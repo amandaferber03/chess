@@ -188,12 +188,12 @@ namespace Chess
     occ[end] = piece;
     
     if (ascii_char == 'p' && end.second == '1') {
-      // delete occ[start];
+      delete piece;
       occ.erase(end);
       add_piece(end, 'q');
     }
     else if (ascii_char == 'P' && end.second == '8') {
-      //delete occ[start];
+      delete piece;
       occ.erase(end);
       add_piece(end, 'Q');
     }
