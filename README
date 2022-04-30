@@ -1,0 +1,34 @@
+TEAM
+
+Nicole Saade - JHED: nsaade1
+Amanda Ferber - JHED: aferber2
+Meghana Karthic - JHED: mkarthi2
+
+DESIGN:
+
+The overall design of this project was mainly approached by focusing on the different sections that will give our game functionality. We started by designing each piece’s functionality (legal moves, functions relating to checking if the path is clear, etc) and continued to more general aspects such as how can two players play our newly implemented chess game and also catching special cases that might yield exceptions.
+
+Implementation of point_value: we implemented point value by focusing on the pieces that were located on the board (as specified in the instructions)
+
+What we did for the implementation of point_value was returning the material point that the player has on the board per piece. We used a switch statement with all possible pieces in the board. And depending on those, we decrease from the initial point value of a player (39) as his pieces are captured. 
+
+The way we decrease the count is by resetting the count after every game and using an iterator that adds up the values of the pieces still in the board.
+
+The pieces are valued the following way:
+
+Pawn: 1 pt
+Rook: 5 pt
+Knight: 3 pt
+Bishop: 3pt
+Queen: 9 pt
+
+And the mistery piece acquires the value of the item stored in the Map that has the respective position as key.
+
+
+COMPLETEDNESS:
+
+We implemented the entire project according to the instructions given by the handout.
+
+SPECIAL INSTRUCTIONS:
+
+No special instructions. Just play like you would play a regular chess game!
