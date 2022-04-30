@@ -196,11 +196,10 @@ namespace Chess
 	  }
         }
 
-  bool Game::legal_move_path(const Position& start, const Position& end) const {
-    Piece * piece = board.get_occ().at(start);
-                char piece_type = piece->to_ascii();
+  bool Game::legal_move_path(const Position& start, const Position& end, bool check_exposed) const {
+        Piece * piece = board.get_occ().at(start);
+        char piece_type = piece->to_ascii();
 		bool path_clear = true;
-		bool check_exposed = exposes_check(start, end)
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
 		if (piece->legal_move_shape(start, end) && !check_exposed) {
@@ -246,14 +245,14 @@ namespace Chess
 			throw Exception("move exposes check");
 		}
 		// piece does not exist at end position
-		else if{ (board(end) != nullptr)
+		else if (board(end) != nullptr) {
 			throw Exception("illegal capture shape");
 		}
 		else {
 			return false;
 		}
 		return path_clear;
-}
+  }
 
        void Game::check_positions(const Position& start, const Position& end) {
 	
@@ -287,8 +286,9 @@ namespace Chess
 
 		Piece * piece = board.get_occ().at(start);
 		char ascii_char = piece->to_ascii();
-		
-		bool path_clear = legal_move_path(start, end); 
+
+		bool check_exposed = exposes_check(start, end);
+		bool path_clear = legal_move_path(start, end, check_exposed); 
 
 		if (board(end) != NULL) {
 		    Piece * captured_piece = board.get_occ().at(end);
@@ -298,6 +298,7 @@ namespace Chess
 			else {
 				//delete captured_piece;
 			}
+		}
 			
 		if (path_clear) {
 			board.change_pos(start, end, piece, ascii_char);
