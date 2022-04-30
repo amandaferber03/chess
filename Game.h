@@ -53,13 +53,13 @@ namespace Chess
 	    bool exposes_check(const Position& start, const Position& end);
 	    
 		//checks if a move shape is legal and a path is clear
-	  bool legal_move_path(const Position& start, const Position& end, bool check_exposed) const;
+	  bool legal_move_path(const Position& start, const Position& end) const;
 	    
 		// Checks if position specified by user is valud
 		void check_positions(const Position& start, const Position& end);
 
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
-		void make_move(const Position& start, const Position& end, bool is_real_game);
+		void make_move(const Position& start, const Position& end);
     
 	    bool end_of_game(const bool& white) const;
 	  
