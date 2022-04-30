@@ -200,9 +200,10 @@ namespace Chess
     Piece * piece = board.get_occ().at(start);
                 char piece_type = piece->to_ascii();
 		bool path_clear = true;
+		bool check_exposed = exposes_check(start, end)
 
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
-		if (piece->legal_move_shape(start, end)) {
+		if (piece->legal_move_shape(start, end) && !check_exposed) {
 			switch (piece_type) {
 				case 'R':
 				case 'r': 
@@ -238,12 +239,18 @@ namespace Chess
 		else if (piece->legal_capture_shape(start, end) && board(end) != nullptr) {
 		  return path_clear;
 		}
+		else if (board(end) == nullptr){
+			throw Exception("illegal move shape");
+		}
+		else if(check_exposed) {
+			throw Exception("move exposes check");
+		}
 		// piece does not exist at end position
-		else if (board(end) != nullptr){
+		else if{ (board(end) != nullptr)
 			throw Exception("illegal capture shape");
 		}
 		else {
-			throw Exception("illegal move shape");
+			return false;
 		}
 		return path_clear;
 }
@@ -273,47 +280,33 @@ namespace Chess
 		if (start.first == end.first && start.second == end.second) {
 		  throw Exception("illegal move shape");
 		}
-		Piece * piece = board.get_occ().at(start);
-		char ascii_char = piece->to_ascii();
 		// checks if turn doesn't correspond with right piece color
 		if (piece->is_white() != turn_white()) {
 			throw Exception("piece color and turn do not match");
 		}
+
+		Piece * piece = board.get_occ().at(start);
+		char ascii_char = piece->to_ascii();
+		
 		bool path_clear = legal_move_path(start, end); 
-		// checks if the user is trying to capture the opponent's piece if the path is clear
-		if (path_clear) {
-		   	if (board(end) != nullptr) {
-		    	Piece * captured_piece = board.get_occ().at(end);
-		      	if (captured_piece->is_white() == turn_white()) {
-					throw std::logic_error("cannot capture own piece");
-		    	}
-				else {
-			    	//delete captured_piece;
-				}
+
+		if (board(end) != NULL) {
+		    Piece * captured_piece = board.get_occ().at(end);
+		    if (captured_piece->is_white() == turn_white()) {
+				throw std::logic_error("cannot capture own piece");
+		    }
+			else {
+				//delete captured_piece;
 			}
+			
+		if (path_clear) {
+			board.change_pos(start, end, piece, ascii_char);
+			 is_white_turn = !is_white_turn;
 		}
 		else {
 			throw std::logic_error("path is not clear"); 
 		}
-   
-		bool possible_check = exposes_check(start, end);
-		// checks if movement exposes check
-		if(!possible_check) {// updates pair in map representing end position with
-		                    //new piece and deletes key representing piece at start position
-
-		   board.change_pos(start, end, piece, ascii_char);
-		  // TODO: ensure the piece is visually removed from start position
-		  //and added to end position using functions in Board.h
-
-		  //should we use the add_piece() function
-		  is_white_turn = !is_white_turn;
-
-		}
-		else {
-		  throw std::logic_error("move exposes check");//CHANGED THIS
-		}
 	}
-		
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this;
 		Piece * piece = board.get_occ().at(start);
