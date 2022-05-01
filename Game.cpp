@@ -260,7 +260,13 @@ namespace Chess
 
 		//Calling for path_clear
 		else if (piece->legal_capture_shape(start, end) && board(end) != nullptr) {
-		  return path_clear;
+			if(piece_type == 'p' || piece_type == 'P') {
+				return path_clear;
+			}
+			else {
+				path_clear = mystery_path_clear(start, end);
+			}
+		  
 		}
 		// piece does not exist at end position
 		else if (board(end) != nullptr){
@@ -522,7 +528,9 @@ namespace Chess
 			}
 			i++;
 		}
-
+		if (!is.eof()) {
+			throw Exception("Cannot load the game!");
+		}
 		return is;
 	}
 
