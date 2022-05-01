@@ -38,8 +38,13 @@ namespace Chess
 	  occ.clear();
   }
 
+/*Board Destructor */
   Board::~Board() { }
-  
+
+
+/*This function adds a piece to a board
+ *Parameters: position and the char piece designator 
+ */  
   void Board::add_piece(const Position& position, const char& piece_designator) {
 
     string valid_piece_designators = "KkQqBbNnRrPpMm";
@@ -158,20 +163,29 @@ namespace Chess
     cout << "  ABCDEFGH " << endl;
   }
 
-
+/* get_occ function. Returns a map with a piece depending on the position */
   std::map<Position, Piece*> Board::get_occ() const {
     return occ;
   }
   
+/* Checks to see if a player has kings */  
   bool Board::has_valid_kings() const {
+
+	//Variable initialization  
     int white_king_count = 0;
     int black_king_count = 0;
+
+	//Iteration through board looking for king
     for (std::map<std::pair<char, char>, Piece*>::const_iterator it = occ.begin(); it != occ.end(); it++) {
+
+	//Checking for each king	
       if (it->second) {
 	      switch (it->second->to_ascii()) {
+		//Player 1	  
 	      case 'K':
 	        white_king_count++;
 	        break;
+		//Player 2	
 	      case 'k':
 	        black_king_count++;
 	        break;
@@ -181,12 +195,20 @@ namespace Chess
     return (white_king_count == 1) && (black_king_count == 1);
   }
 
+/* Changes a piece's position */
   void Board::change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     Piece * captured_piece = occ[end];
+
+	//if there is a piece in the postion at the end
     if(captured_piece) {
+		//We delete the respective piece	
       delete captured_piece;
     }
+
+	//Handling cases related to turning the pawn into a queen when it reaches the end of the board
     occ[end] = piece;
+
+	//Player 1
     if (ascii_char == 'p' && end.second == '1') {
       if(piece) {
 	      delete piece;
@@ -194,6 +216,8 @@ namespace Chess
       occ.erase(end);
       add_piece(end, 'q');
     }
+
+	//Player 2
     else if (ascii_char == 'P' && end.second == '8') {
       if(piece)	{
         delete piece;
@@ -204,6 +228,7 @@ namespace Chess
     occ.erase(start);
   }
 
+/* Returns a pointer to a piece that is at the end position when we make a move*/
   Piece* Board::change_map(const Position& start, const Position& end, Piece * piece, char ascii_char) {
     // "move" pawn to end position
     occ[end] = piece;

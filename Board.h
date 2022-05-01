@@ -49,10 +49,14 @@ namespace Chess
 		// Returns true if the board has the right number of kings on it
 		bool has_valid_kings() const;
 
-    void change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char);
+		//Changes the position of a piece taking the start and end positions, the pointer to the piece that 
+		//Want to move, and the ascii char designator
+    	void change_pos(const Position& start, const Position& end, Piece * piece, char ascii_char);
 
-    Piece* change_map(const Position& start, const Position& end, Piece * piece, char ascii_char);
+		//When we make a move, it returns a pointer to the piece at the end position
+    	Piece* change_map(const Position& start, const Position& end, Piece * piece, char ascii_char);
 
+		//Returns a map with a piece that uses the position as a key
         std::map<Position, Piece*> get_occ() const;
     
  
