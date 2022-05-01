@@ -2,6 +2,8 @@
 
 namespace Chess
 {
+
+  /* Verifies if indended movement is within chess parameters */	
   bool King::legal_move_shape(const Position& start, const Position& end) const {
    
    // horizontal movement
@@ -23,6 +25,7 @@ namespace Chess
      }
    }
 
+   //If King attempts to move through other pieces
    return false;
   }
 
