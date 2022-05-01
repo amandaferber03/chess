@@ -499,20 +499,19 @@ namespace Chess
 				throw Exception("Cannot load the game!");
 			}
 
-            // determines current turn
-            if (piece_symbol == 'b' && i == 64) {
+			// determines current turn
+                        if (piece_symbol == 'b' && i == 64) {
 				game.is_white_turn = false;
 			}
 			else if (piece_symbol == 'w') {
 				game.is_white_turn = true;
 				}
-            // adds piece to board
-            else if (piece_symbol != '-') {
+			// adds piece to board
+                        else if (piece_symbol != '-') {
 				game.board.add_piece(pos, piece_symbol);
 			}
-
-            // updates position
-            first_pos++;
+			// updates position
+                        first_pos++;
 			if (counter < 7) {
 				counter++;
 			}
@@ -528,7 +527,7 @@ namespace Chess
 	}
 
 	void Game::erase_board() {
-    	board.erase_if_existing();
+    	  board.erase_if_existing();
 	}
 
     /////////////////////////////////////
