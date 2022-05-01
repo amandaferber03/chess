@@ -284,8 +284,8 @@ namespace Chess
 
 	}
   
-  /* Given start and end positions, we change the piece's position in the board */
-  void Game::make_move(const Position& start, const Position& end, bool change_pos) {
+  	/* Given start and end positions, we change the piece's position in the board */
+ 	void Game::make_move(const Position& start, const Position& end, bool change_pos) {
 		// throws an Exception if start and/or end position(s) are invalid
 		check_positions(start, end);
 		// checks if piece exists at starting position 
@@ -436,24 +436,24 @@ namespace Chess
 		}	
 
 	/* Function that returns true if the designated player is in mate */
-		bool Game::in_mate(const bool& white) const {
-    	    if (in_check(is_white_turn)) {
-		    	return end_of_game(white);
-	  		}
-		  	else {
-		    	return false;
-	  		}
-		}
+	bool Game::in_mate(const bool& white) const {
+    	if (in_check(is_white_turn)) {
+		    return end_of_game(white);
+	  	}
+		else {
+		    return false;
+	  	}
+	}
 
-		/* Checks to see if a player is or is not in a stalement position */
-		bool Game::in_stalemate(const bool& white) const {
-		  if(!(in_check(is_white_turn))) {
-		    	return end_of_game(white);
-		  	}
-		  	else {
-		    	return false;
-		  	}
+	/* Checks to see if a player is or is not in a stalement position */
+	bool Game::in_stalemate(const bool& white) const {
+		if(!(in_check(is_white_turn))) {
+		    return end_of_game(white);
 		}
+		else {
+		    return false;
+		}
+	}
 
     // Return the total material point value of the designated player
     int Game::point_value(const bool& white) const {
