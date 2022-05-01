@@ -44,7 +44,7 @@ namespace Chess
 		board.add_piece(Position( 'A'+4 , '1'+7 ) , 'k' );
 	}
 
-	// checks if path is clear for Rook movement
+	/* Checks if path is clear for Rook movement */
 	bool Game::rook_path_clear(const Position& start, const Position& end) const {
 	  char row = '0';
 	  char col = '0';
@@ -60,7 +60,7 @@ namespace Chess
 	  else {
 	    col = start.first - 1;
 	  }
-				// checks for pieces in horizontal path
+			// checks for pieces in horizontal path
 			// will not execute if path is vertical
 			for (int i = 0; i < abs(end.first - start.first) - 1; i++) {
 				Position pos = std::make_pair(col, start.second);
@@ -93,8 +93,10 @@ namespace Chess
 			return true;
 	}
 
+	/* Checks if path is clear for pawn movement */
 	bool Game::pawn_path_clear(const Position& start) const {
-          	char row = 0;
+
+        char row = 0;
 		char row2 = 0;
 
 		if (is_white_turn) {
@@ -108,16 +110,22 @@ namespace Chess
 		Position pos = std::make_pair(start.first, row);
 		Position pos2 = std::make_pair(start.first, row2);
 
+		//Set of conditionals to determine which boolean to return
+
+		//Pointer not null, there is piece at end and we return false
 		if (board(pos) != nullptr) {
 			return false;
 		}
 		else if (board(pos2) != nullptr) {
 		  return false;
 		}
+
+		//If the pointer is null, path is clear
 		return true;
 	}
 
-  bool Game::bishop_path_clear(const Position& start, const Position& end) const {//problem spot
+ 	 /* Checks if path is clear for bishop movement */
+  	bool Game::bishop_path_clear(const Position& start, const Position& end) const {//problem spot
 		
 		int num_spaces = abs(end.second - start.second);
 		int row = start.second;
@@ -164,6 +172,7 @@ namespace Chess
 		return true;
 	}
 
+	/* Checks if path is clear for queen movement */
 	bool Game::queen_path_clear(const Position& start, const Position& end) const {
           // check if diagonal path is clear
 	  int diag_col = abs(end.first - start.first);
@@ -194,8 +203,12 @@ namespace Chess
 	  else {
 	    return true;
 	  }
-        }
+    }
 
+
+/* In the midst of an ongoing game, checks for the respective piece's possible paths using the individual
+ * piece's path_clear functions
+ */	
   bool Game::legal_move_path(const Position& start, const Position& end) const {
     Piece * piece = board.get_occ().at(start);
                 char piece_type = piece->to_ascii();
@@ -205,18 +218,22 @@ namespace Chess
 		// checks if path is clear (except for Knight and King) if move shape or capture shape is legal
 		if (piece->legal_move_shape(start, end)) {
 			switch (piece_type) {
+				//Rook
 				case 'R':
 				case 'r': 
 					path_clear = rook_path_clear(start, end);
 		    		break;
+				//Bishop	
 				case 'B':
 				case 'b':
 					path_clear = bishop_path_clear(start, end);
 		    		break;
+				//Queen	
 				case 'Q':
 		  		case 'q': 
 				  	path_clear = queen_path_clear(start, end);
 		    		break;
+				//Pawn	
 				case 'P':
 				case 'p':
 				  if (is_white_turn) {
@@ -230,12 +247,15 @@ namespace Chess
 				    }
 				  }		     
 				  break;
+				//Mystery piece  
 			    case 'M':
 			    case 'm':
 				    path_clear = mystery_path_clear(start, end);
 			    default: break;
 			}
 		}
+
+		//Calling for path_clear
 		else if (piece->legal_capture_shape(start, end) && board(end) != nullptr) {
 		  return path_clear;
 		}
@@ -249,7 +269,8 @@ namespace Chess
 		return path_clear;
 }
 
-       void Game::check_positions(const Position& start, const Position& end) {
+	/*Function that helps verify if a given position is in the board */
+    void Game::check_positions(const Position& start, const Position& end) {
 	
 		bool valid_start = (start.first >= 'A' && start.first <= 'H') && (start.second >= '1' && start.second <= '8');
 		if (!valid_start) {
@@ -263,6 +284,7 @@ namespace Chess
 
 	}
   
+  /* Given start and end positions, we change the piece's position in the board */
   void Game::make_move(const Position& start, const Position& end, bool change_pos) {
 		// throws an Exception if start and/or end position(s) are invalid
 		check_positions(start, end);
@@ -317,6 +339,7 @@ namespace Chess
 		}
 	}
 		
+	/* Verifies whether or not a movement exposes a check situation */	
     bool Game::exposes_check(const Position& start, const Position& end) {
 		Game game_replica = *this;
 		Piece * piece = board.get_occ().at(start);
@@ -338,6 +361,7 @@ namespace Chess
 	  	}
     }
 
+	/* Bool function that helps us determine if a game has ended or not */
     bool Game::end_of_game(const bool& white) const {
 		// variable that represents board
         std::map<Position, Piece*> board_occ = board.get_occ();
@@ -377,58 +401,59 @@ namespace Chess
         return !legal_move;
   	}
 
-	bool Game::in_check(const bool& white) const {
-		// variable to store map
-		std::map<Position, Piece*> board_occ = board.get_occ();
-	  	Position king_pos;
-	  	bool possible_check = false; 
+		/* If a designated player is in check, this function will return true */
+		bool Game::in_check(const bool& white) const {
+			// variable to store map
+			std::map<Position, Piece*> board_occ = board.get_occ();
+	  		Position king_pos;
+	  		bool possible_check = false; 
 
-		// iterates through each position in the board and determines position of King
-        for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
-	    	if (it->second->is_white() == white) {
-		  		char piece_type = toupper(it->second->to_ascii());
-	      	  	if (piece_type == 'K') {
-		    		king_pos = it->first;
-	      	   }
-	        }
-		}
-
-		// determines if piece could capture king of opposing player
-	  	for(std::map<Position, Piece*>::iterator inner_it = board_occ.begin(); inner_it != board_occ.end(); ++inner_it) {
-			// determines if piece is the opposite color
-	    	if (inner_it->second->is_white() != white) {
-				// calls legal_move_path of appropriate piece
-		  		Position start_pos = inner_it->first;
-		  		try {
-		    		possible_check = legal_move_path(start_pos, king_pos);
-		  		}
-		  		catch(const std::exception& e) {
-		    		continue;
-		  		}
+			// iterates through each position in the board and determines position of King
+       	 for (std::map<Position, Piece*>::iterator it = board_occ.begin(); it != board_occ.end(); ++it) {
+	    		if (it->second->is_white() == white) {
+		  			char piece_type = toupper(it->second->to_ascii());
+	      		  	if (piece_type == 'K') {
+		    			king_pos = it->first;
+	   		   	   }
+	       		}
 			}
+
+			// determines if piece could capture king of opposing player
+	  		for(std::map<Position, Piece*>::iterator inner_it = board_occ.begin(); inner_it != board_occ.end(); ++inner_it) {
+				// determines if piece is the opposite color
+	    		if (inner_it->second->is_white() != white) {
+					// calls legal_move_path of appropriate piece
+			  		Position start_pos = inner_it->first;
+			  		try {
+			    		possible_check = legal_move_path(start_pos, king_pos);
+		  			}
+		  			catch(const std::exception& e) {
+		    			continue;
+			  		}
+				}
+			}
+			return possible_check;
+		}	
+
+	/* Function that returns true if the designated player is in mate */
+		bool Game::in_mate(const bool& white) const {
+    	    if (in_check(is_white_turn)) {
+		    	return end_of_game(white);
+	  		}
+		  	else {
+		    	return false;
+	  		}
 		}
-	return possible_check;
-	}
 
-
-	bool Game::in_mate(const bool& white) const {
-        if (in_check(is_white_turn)) {
-	    	return end_of_game(white);
-	  	}
-	  	else {
-	    	return false;
-	  	}
-	}
-
-
-	bool Game::in_stalemate(const bool& white) const {
-	  if(!(in_check(is_white_turn))) {
-	    	return end_of_game(white);
-	  	}
-	  	else {
-	    	return false;
-	  	}
-	}
+		/* Checks to see if a player is or is not in a stalement position */
+		bool Game::in_stalemate(const bool& white) const {
+		  if(!(in_check(is_white_turn))) {
+		    	return end_of_game(white);
+		  	}
+		  	else {
+		    	return false;
+		  	}
+		}
 
     // Return the total material point value of the designated player
     int Game::point_value(const bool& white) const {
@@ -466,12 +491,6 @@ namespace Chess
 		game.board.erase_if_existing();
 		// variable to store map
 		std::map<Position, Piece*> board_occ = game.board.get_occ();
-		/*
-		// attempts to open file
-		if (!is.is_open()) {
-			throw Exception("Cannot load the game!");
-		}
-                */
 
 		char piece_symbol;
 		char first_pos = 'A';

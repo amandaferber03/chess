@@ -61,6 +61,7 @@ namespace Chess
 		// the turn is switched white <-> black. Otherwise, an exception is thrown
 	  void make_move(const Position& start, const Position& end, bool change_pos);
     
+		//Verifies if the game has ended or not
 	    bool end_of_game(const bool& white) const;
 	  
 		// Returns true if the designated player is in check
@@ -69,7 +70,7 @@ namespace Chess
 		// Returns true if the designated player is in mate
 		bool in_mate(const bool& white) const;
 
-		// Returns true if the designated player is in mate
+		// Returns true if the designated player is in stalemate
 		bool in_stalemate(const bool& white) const;
 
         // Return the total material point value of the designated player
