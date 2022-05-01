@@ -13,7 +13,7 @@ namespace Chess
 	
     // horizontal L
     if (end.second == start.second + 1 || end.second == start.second - 1) {
-      if (end.first == start.first + 2 || end.second == start.first - 2) {
+      if (end.first == start.first + 2 || end.first == start.first - 2) {
         return true;
       }
     }

@@ -86,14 +86,25 @@ int main(int argc, char* argv[]) {
 				break;
 			case 'L': case 'l': {
 				// Load a game from a file
-        // TODO: add try catch blocks to handle any file i/o and game loading problem
-        // exit the program with return code -1 if an exception is caught here
 				std::string argument;
 				std::cin >> argument;
 				std::ifstream ifs;
-				ifs.open( argument );
-				ifs >> game;
+
+				// TODO: add try catch blocks to handle any file i/o and gmae loading problem
+				// exit the program with return code -1 if an exception is caught here
+
+				// checks if file successfully opens and its contents are valid
+				try {
+					ifs.open( argument );
+					ifs >> game;
+				}
+				catch (const std::exception& e) {
+					std::cerr << e.what() << std::endl;
+					return -1;
+				}
+
 				ifs.close();
+				
 				// Check that the game is valid
 				assert(game.is_valid_game());
 				break;
@@ -137,8 +148,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	game.erase_board();
-
 	// Write out the state of the game to a file
 	if (argc > 1) {
 		std::ofstream ofs;
@@ -146,6 +155,7 @@ int main(int argc, char* argv[]) {
 		ofs << game;
 		ofs.close();
 	}
+	game.erase_board();
 	return 0;
 }
 

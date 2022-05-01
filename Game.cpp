@@ -236,6 +236,9 @@ namespace Chess
 				//Pawn	
 				case 'P':
 				case 'p':
+				  if (board(end) != nullptr) {
+                    throw Exception("illegal capture shape");
+				  }
 				  if (is_white_turn) {
 					if (end.second == start.second + 2) {
 						path_clear = pawn_path_clear(start);
@@ -456,32 +459,16 @@ namespace Chess
 	}
 
     // Return the total material point value of the designated player
-    int Game::point_value(const bool& white) const {
-      //TODO: check to see if this is right
-      //traverse through the white pieces of the map to see which ones are still there
+    int Game::point_value(const bool& white) const {                                                                     
+      //traverse through the white pieces of the map to see which ones are still there                             
       int points = 0;
       std::map<Position, Piece*> board_occ = board.get_occ();
       for(std::map<Position, Piece*>::iterator it = board_occ.begin();
-	  it != board_occ.end();
-	  ++it) {
-	if(it->second->is_white() == white) {//if the color of the piece matches whose turn it is
-	  char piece_type = toupper(it->second->to_ascii());//TODO: do we need to #include something special for this
-	  switch (piece_type) {
-	  case 'P': points += 1;
-	    break;
-	  case 'N': points += 3;
-	    break;
-	  case 'B': points += 3;
-	    break;
-	  case 'R': points += 5;
-	    break;
-	  case 'Q': points += 9;
-	    break;
-	  case 'M': points += it->second->point_value();
-	    break;
-	  default: break;
-	  }
-	}
+          it != board_occ.end();
+          ++it) {
+        if(it->second->is_white() == white) {//if the color of the piece matches whose turn it is                  
+          points += it->second->point_value();
+        }
       }
       return points;
     }
@@ -489,32 +476,45 @@ namespace Chess
 
     std::istream& operator>> (std::istream& is, Game& game) {
 		game.board.erase_if_existing();
-		// variable to store map
+		string valid_piece_designators = "-KkQqBbNnRrPpMmw";
 		std::map<Position, Piece*> board_occ = game.board.get_occ();
-
+		
 		char piece_symbol;
 		char first_pos = 'A';
 		char second_pos = '8';
-                int i = 0;
+		int i = 0;
 		int counter = 0;
-
-		// captures each character in the file
+		bool valid_symbol = false;
+		
 		while (is >> piece_symbol) {
-			if (piece_symbol == 'w') {
-				game.is_white_turn = true;
+			Position pos = std::make_pair(first_pos, second_pos);
+			for (size_t i = 0; i < valid_piece_designators.length(); i++) {
+				if (piece_symbol == valid_piece_designators.at(i)) {
+					valid_symbol = true;
+					break;
+					}
 			}
-			else if (piece_symbol == 'b' && i == 64) {
+			
+			if (!valid_symbol) {
+				throw Exception("Cannot load the game!");
+			}
+
+            // determines current turn
+            if (piece_symbol == 'b' && i == 64) {
 				game.is_white_turn = false;
 			}
-			else if (piece_symbol != '-') {
-				Position pos = std::make_pair(first_pos, second_pos);
-				game.board.add_piece(pos, piece_symbol); // TODO: implement function
+			else if (piece_symbol == 'w') {
+				game.is_white_turn = true;
+				}
+            // adds piece to board
+            else if (piece_symbol != '-') {
+				game.board.add_piece(pos, piece_symbol);
 			}
 
-			// updates position values
-			first_pos++; // B, C, D, E, F, G, H
+            // updates position
+            first_pos++;
 			if (counter < 7) {
-				counter++; // 1, 2, 3, 4, 5, 6, 7
+				counter++;
 			}
 			else {
 				counter = 0;
