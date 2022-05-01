@@ -2,28 +2,24 @@
 
 namespace Chess
 {
-  bool Queen::legal_move_shape(const Position& start, const Position\
-& end) const {
-    //Allowing for vertical and horizontal movement
+  bool Queen::legal_move_shape(const Position& start, const Position& end) const {
   
-       //ROOK-LIKE MOVEMENTS
-       //Vertical
-       if (start.first == end.first) {
-	 return true;
-       }
-       //Horizontal
-       if (start.second == end.second) {
-           return true;
-       }
+        // vertical movement
+        if (start.first == end.first) {
+                return true;
+        }
+        // horizontal movement
+        if (start.second == end.second) {
+            return true;
+        }
  
-       //BISHOP LIKE MOVEMENTS
-       //Diagonal
-       for (int i = 1; i < 7; i++) {
-           if ((end.first == start.first + i || end.first == start.first - i) && (end.second == start.second + i || end.second == start.second - i)) {
-               return true;
-           }
-       }                                      
-   return false;
-  }
+        // diagonal movement
+        for (int i = 1; i < 7; i++) {
+            if ((end.first == start.first + i || end.first == start.first - i) && (end.second == start.second + i || end.second == start.second - i)) {
+                return true;
+            }
+        }                                      
+        return false;
+    }
 
 }

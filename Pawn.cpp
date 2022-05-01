@@ -12,9 +12,7 @@ namespace Chess
 
       // pawn may move one or two spaces forward on first move
       if (white_turn_first) {
-	
 	      if (end.second == start.second + 1 || end.second == start.second + 2) {
-	
 	        return true;
 	      }
       }

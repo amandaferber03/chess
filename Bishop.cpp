@@ -10,5 +10,4 @@ namespace Chess
    	}
    	return false;
   }
-
 }

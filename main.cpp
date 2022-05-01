@@ -88,9 +88,6 @@ int main(int argc, char* argv[]) {
 				std::cin >> argument;
 				std::ifstream ifs;
 
-				// TODO: add try catch blocks to handle any file i/o and gmae loading problem
-				// exit the program with return code -1 if an exception is caught here
-
 				// checks if file successfully opens and its contents are valid
 				try {
 					ifs.open( argument );
@@ -129,14 +126,12 @@ int main(int argc, char* argv[]) {
 					  argument << " ) = " << argument.length() << std::endl;
 				// And make the move
 				} else {
-					// TODO: add try catch blocks to recover from illegal moves
 					try {
 					  game.make_move(std::make_pair(argument[0], argument[1]), std::make_pair(argument[2], argument[3]), true);
 					}
 					catch (const std::exception& e) {
 						std::cerr << "Could not make move: " << e.what() << std::endl;
 					}
-					
 				}
 				break;
 			}

@@ -1,0 +1,441 @@
+commit 41bc7b85156f9d6ae8eec36217f4fb9e82927aa1
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sun May 1 17:09:14 2022 -0400
+
+    added more support for mystery piece and more error handling for file I/O
+
+commit ade5557959b24eff99976f20ded988503ee31246
+Author: nicolesaade <62183652+nicolesaade@users.noreply.github.com>
+Date:   Sun May 1 15:39:07 2022 -0400
+
+    Add files via upload
+    
+    chessUML file containing our UML diagram for this project!
+
+commit 8854922f9518564aeea88ca314d0b32963e7a493
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sun May 1 15:30:25 2022 -0400
+
+    fixed minor spacing errors
+
+commit d77d92fc4f0ca32ce4cdec295b537da2d017f077
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sun May 1 15:21:41 2022 -0400
+
+    made important changes to logic and efficiency
+
+commit d5fefd9e0c4da05635ccbaa73973c23f3c2dc146
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun May 1 11:08:42 2022 -0400
+
+    Added documentation to King class
+
+commit ed4d8c44c0df1b582db5201015f5aa713640917d
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun May 1 11:02:57 2022 -0400
+
+    Added simple documentation
+
+commit 74039a67a278646dee9754e3e581c35a030bc44e
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun May 1 10:55:41 2022 -0400
+
+    Fixed minor identation issues
+
+commit d03600e8321eea3d310377c6137773bec1e29b92
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun May 1 10:53:12 2022 -0400
+
+    Added documentation for the Game files
+
+commit 07f0d5a1d48f39f9edd5dedb4c2869acd80f9be8
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun May 1 10:39:03 2022 -0400
+
+    Added documentation to Board files
+
+commit 373d735c1b475236abb6b9fabf2c69de087b53be
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Sat Apr 30 16:09:10 2022 -0400
+
+    fixed memory issues associated with making first move
+
+commit 68395005b279a2d2b737adf2ac5a70e3aab73cfc
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Sat Apr 30 15:16:50 2022 -0400
+
+    fixed memory issue with pawn promotion
+
+commit d706b17dfe4e659474653550bbf0ffe57ad32a31
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sat Apr 30 14:28:58 2022 -0400
+
+    check, checkmate, and stalemate work now; we need to fix memory leak with pawn promotion
+
+commit 5c4c9b6671ba54c990be127205ab02a88ad4d468
+Merge: d12bef5 f0d0c88
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sat Apr 30 14:06:15 2022 -0400
+
+    Merge branch 'master' of https://github.com/jhu-ip/2022-spring-final-nsaade1-aferber2-mkarthi2
+    q
+
+commit d12bef5ef4f1e0640997636730016747f7dfadc4
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sat Apr 30 12:08:57 2022 -0400
+
+    prevented memory leaks when capturing pieces
+
+commit f0d0c886ccd92b552243050ed7004f35ef87eb90
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sat Apr 30 11:48:44 2022 -0400
+
+    Added intial README version
+
+commit faf9271d10e4ab4a7a8d2bb6e7ba83dcc762a9da
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sat Apr 30 10:45:16 2022 -0400
+
+    corrected errors in logic
+
+commit 3ea6ef0947a13c0b9715cd87f50f061eea1002f1
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sat Apr 30 10:25:54 2022 -0400
+
+    tried another way of memory management
+
+commit c23779a88252aed4ea8fe01f843532dba54a8bd7
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sat Apr 30 10:19:43 2022 -0400
+
+    trying to prevent segmentation faults
+
+commit da2ad3c400638f3e72c68069ea498a02f797c5fd
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sat Apr 30 10:07:05 2022 -0400
+
+    small syntax error
+
+commit 99f0900cab18faf568c74c3e845376bbc24e34b0
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sat Apr 30 10:03:20 2022 -0400
+
+    fixed some syntax errors
+
+commit 830f20c7370078a6173f441d9c60b964315ec609
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Sat Apr 30 09:52:17 2022 -0400
+
+    fixed order of make_move error handling hierarchy
+
+commit e2ba5afa35cd3b2309c67d727631b28743ffb6f5
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 23:46:41 2022 -0400
+
+    reverted the delete statements
+
+commit 09f504c90159273133772937654ff3d3f0d86fd6
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 23:24:06 2022 -0400
+
+    added new delete statements in change_pos
+
+commit 335942589759f708a40ff1048d12ee40ce2cbaf2
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 23:15:29 2022 -0400
+
+    deleted the delete statements
+
+commit 7a248a8f984cf8ecc774c4e7e7eb73ffaf3129cb
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 23:12:57 2022 -0400
+
+    added some delete statements
+
+commit 509e3c39048194b5a3724aeda4d45fc6cb764c85
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 29 17:31:54 2022 -0400
+
+    fixed rook_path_clear
+
+commit af527f750b1858bb575fad24eabe80e3648fc1ad
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 16:02:05 2022 -0400
+
+    synchronized changes among repo
+
+commit 766c0cc2b3a981b5f8b36eefbbc52ab30228ce2c
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 15:43:41 2022 -0400
+
+    removed unnecessary print statements
+
+commit 91a470c0cfa90fe834e1ab76a1b8f4875eadc316
+Author: amandaferber03 <98185007+amandaferber03@users.noreply.github.com>
+Date:   Fri Apr 29 15:36:15 2022 -0400
+
+    Corrected memory errors
+
+commit 3e7d862cbc0b76afb4af1ba3db57b4c78db69fb5
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 29 12:59:28 2022 -0400
+
+    better outcome in valgrind
+
+commit 63f3519fe3fd5ceb70bc0531684b6e77352c4f56
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 29 12:38:10 2022 -0400
+
+    memory leak checking
+
+commit 36033cb94f51e449cf82653f6181a8b3a9eb88ed
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Fri Apr 29 10:43:37 2022 -0400
+
+    changed color of black pieces to black instead of white
+
+commit 5909096615d4046e451f2a2eae23f2f32e54cfb2
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Fri Apr 29 10:31:12 2022 -0400
+
+    program now promotes Pawn to Queen
+
+commit db9d8efc96b847b995425d38961168342e0de261
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 29 02:31:51 2022 -0400
+
+    in_mate works now
+
+commit 24ac97154f420b6561616b11e51f8b459ae6a4df
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 29 00:55:12 2022 -0400
+
+    fixed the loading in of files
+
+commit 321e82f3eb9e7d6bfe72a502a629dc36c4ccc1d9
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Thu Apr 28 23:43:10 2022 -0400
+
+    Minor Teaking
+
+commit 9ca59d90c2fed534a528e648b1d5cb63a7fdcb25
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Thu Apr 28 23:27:53 2022 -0400
+
+    Added helper function header
+
+commit 785d5a88b91f3670ab17f6013c75a4e907aaa391
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Thu Apr 28 23:26:38 2022 -0400
+
+    Added helper function that empties out board
+
+commit 51e6d664a98f7ae5053befc64adf9c22650fb80c
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Thu Apr 28 23:12:57 2022 -0400
+
+    made many improvements; problem with loading in saved game
+
+commit fe4835cdf9d4da1d75a0c9a902924f0b20a47605
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Thu Apr 28 21:29:45 2022 -0400
+
+    finalized board display and fixed errors in end_of_game
+
+commit 37ff67b57b608ef7cad80a218573058f768d716e
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Thu Apr 28 21:22:04 2022 -0400
+
+    finalized board and fixed errors in end_of_game
+
+commit 5c05d8e3623c042a27ddacd5996947a67e4589b2
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Thu Apr 28 20:21:10 2022 -0400
+
+    fixed some errors; make_move is still wrong
+
+commit bd01979652339c244722bf920b9d5ebd9e400421
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Thu Apr 28 09:35:02 2022 -0400
+
+    fixed one terminate error; now we have another one
+
+commit 1b852ac735fd3a44c281ddc4420c3139798b1918
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 27 22:07:00 2022 -0400
+
+    uncommented lines
+
+commit 6b68d1ab8f08f3daf90576dff77f021399865fc8
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 27 19:52:02 2022 -0400
+
+    got rid of the compiler errors; program doesn't run
+
+commit cd0526e11f27a683bdf40940cff2ad85a9d40f2b
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 27 17:38:17 2022 -0400
+
+    more compiler errors resolved
+
+commit eb669efd0763bba3bf79274f1dbc9aafc426719a
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 27 14:52:38 2022 -0400
+
+    addressed more compiler errors
+
+commit 73f6425677818d59c585bc158d486dab0f4fa4a1
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 27 12:55:13 2022 -0400
+
+    fixed compiler errors
+
+commit b55afb0a4a0adad3eb1e80517eb035fa728ca289
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Wed Apr 27 12:32:05 2022 -0400
+
+    wrote display function in Board class
+
+commit a729b89879303ee00f9ad01e6fd74c3c1816ec96
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Wed Apr 27 10:46:38 2022 -0400
+
+    display function written
+
+commit 61de77a08543971b4416de7dc9b76c1e5c961f99
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Tue Apr 26 23:01:09 2022 -0400
+
+    completed to add_piece and operator()
+
+commit 444005948e0415309f6ad041c325871d2df8742d
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Tue Apr 26 22:18:55 2022 -0400
+
+    completed operator>> function
+
+commit d5ddd7ebaa914ae8a273b877033d9e547270dc7d
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Tue Apr 26 12:47:01 2022 -0400
+
+    finished in_mate and in_stalemate
+
+commit b95449f6845f6a6ed7553bb32a59b321dd3d0491
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Tue Apr 26 10:20:04 2022 -0400
+
+    worked in check, in mate, and in stalemate
+
+commit 991992cdc21d11b36083953b969a82be1437a572
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Mon Apr 25 11:18:04 2022 -0400
+
+    wrote exposes_check and started in_check
+
+commit ca1a01a633b8921fb6e66c1ce406c3c427e0b153
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Mon Apr 25 10:58:50 2022 -0400
+
+    added comments and checked new logic in Game.cpp
+
+commit b32e30a895b867d9187736e150218e7e3020c7ca
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Mon Apr 25 00:53:56 2022 -0400
+
+    accounted for more error cases and added support for Mystery piece in make_move. Also, implemented the point_value function
+
+commit 952fe3c28f3c0bdac477a6021e61dfa6c1637fb9
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sun Apr 24 21:22:14 2022 -0400
+
+    Meghana was the driver and Amanda was the navigator: we refined some of our path_clear functions
+
+commit 1abf80f2b916e7d1286ca9da560db3f86fbac79b
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 20:41:22 2022 -0400
+
+    Added basic implementation (incomplete) to Display (Nicole)
+
+commit fd95de4e61313fc4bb3a6d5adc9a2c13d1d381b3
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sun Apr 24 19:42:36 2022 -0400
+
+    Amanda and Meghana were drivers and corrected code in King and Bishop class
+
+commit 66e9aba52900e33bd0c83b9e78eb461b937fc958
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 19:31:13 2022 -0400
+
+    Fixed minor documentation issue (Nicole)
+
+commit 31ee9372f50e6651a215c2503fe6051141de68ac
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 19:25:43 2022 -0400
+
+    Added a prototype function for legal_move function
+
+commit 231e4da33ebecb2aefb34f8cd20d61e4ad7a350c
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 12:57:47 2022 -0400
+
+    Modified the Queen class adding the legal move method (Nicole)
+
+commit 60b21aa03f37938aaf1c77a09c6c1aadef042717
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 12:56:03 2022 -0400
+
+    Modified the king class adding the legal move method (Nicole)
+
+commit 10926339b270a4e548424249cd4d902dcf244ccd
+Author: nicolesaade <nicolesaadea@gmail.com>
+Date:   Sun Apr 24 12:53:26 2022 -0400
+
+    Applied Legal Move method to Bishop (Nicole)
+
+commit 819b8a5963437cea9e952f45496f9665fbb6bba7
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Sat Apr 23 11:52:31 2022 -0400
+
+    continued make_move function and added member functions to the piece subclasses
+
+commit 52391b4edb01ffe12169ec5e83404e388e14cbfc
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Fri Apr 22 23:33:36 2022 -0400
+
+    Meghana and Amanda were drivers and worked on creating legal_move_shape for Pawn and Rook and rook_path_clear helper function for Rook
+
+commit d4a47e38ad61672007a4422902d77c57c31da01f
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 22 12:12:21 2022 -0400
+
+    synchronizing shared repo
+
+commit 88a428ca54356e5f40d52c8a3a661e115269a6b2
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Fri Apr 22 11:35:24 2022 -0400
+
+    we started legal_move_shape for pawn
+
+commit 5c02523f601f2cb6608379c0ea1359bc1db219c7
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Fri Apr 22 10:52:28 2022 -0400
+
+    forgot to add cpp files
+
+commit fb223fb3b4d59b67feedc94b8f6b51aa6a6fc550
+Author: Meghana Karthic <meg.karthic@gmail.com>
+Date:   Fri Apr 22 10:46:40 2022 -0400
+
+    worked on exception handling in main.cpp for invalid start and end position in case 'M'. Meghana was driver and Amanda and Nicole were navigators
+
+commit fbe851521df1d50096129ff4b1ec73ff620a38d9
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Wed Apr 20 00:36:35 2022 -0400
+
+    created necessary cpp files
+
+commit ae34f8f47cb04bbdb6be8b682f27cfa3dc472545
+Author: Amanda Ferber <aferber2@jhu.edu>
+Date:   Tue Apr 19 21:50:10 2022 -0400
+
+    Initialized with the starter codes
