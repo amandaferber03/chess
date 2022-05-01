@@ -8,7 +8,8 @@ namespace Chess
 	class Rook : public Piece {
 
 	public:
-    bool legal_move_shape(const Position& start, const Position& end) const override;
+		//Verifies if the move made by the rook is within the game's parameters and standards
+    	bool legal_move_shape(const Position& start, const Position& end) const override;
 
 		/////////////////////////////////////
 		// DO NOT MODIFY THIS FUNCTION!!!! //
@@ -28,6 +29,7 @@ namespace Chess
 		/////////////////////////////////////
 		Rook(bool is_white) : Piece(is_white) {}
 
+		//Setting this function as a friend function
 		friend Piece* create_piece(const char& piece_designator);
 	};
 }
